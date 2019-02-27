@@ -1,4 +1,4 @@
-from frame import *
+
 import numpy as np
 
 def generateMatrices(frame, printOn):

@@ -1,5 +1,4 @@
 
-
 class Node:
 
     def __init__(self, frame, name, x, y, z):

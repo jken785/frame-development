@@ -1,5 +1,4 @@
 
-
 class twist100:
     # LOADS
     # specify forces as a list, then place that list at the end of a list of nodes affected by that force

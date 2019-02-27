@@ -3,19 +3,31 @@ from tubeSizes import allSizes
 from node import *
 from tube import *
 import generateMatrices
-import solver
 from solver import *
 from generateMatrices import *
+import numpy as np
 
 class Frame:
 
     def __init__(self):
         self.tubes = []
         self.nodes = []
+        self.torStiffness = None
+        self.weight = None
+        self.internalForces = None
+        self.displacements = None
+        self.reactions = None
+
+    def getTorStiffness(self):
+        return 0
 
     def solve(self):
         numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be = generateMatrices(self, False)
-        return PythonSolver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be)
+        internalForces, displacements, reactions = Solver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be)
+        self.internalForces = internalForces
+        self.displacements = displacements
+        self.reactions = reactions
+        return internalForces, displacements, reactions
 
     def setLoadCase(self, loadCase):
         for i in range(loadCase.nodeForceCases.__len__()):
@@ -82,6 +94,7 @@ class Frame:
         weight = 0
         for tube in self.tubes:
             weight += tube.weight
+        self.weight = weight
         return weight
 
     def toString(self):

@@ -10,7 +10,7 @@ def cart2sph(x, y, z):
     return az, el, r
 
 
-def PythonSolver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be):
+def Solver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be):
     con = np.array(con)
     Ni = np.zeros((12, 12, numTubes))
     S = np.zeros((6*numNodes, 6*numNodes))
