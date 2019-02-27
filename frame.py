@@ -15,7 +15,7 @@ class Frame:
 
     def solve(self):
         numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be = generateMatrices(self, False)
-        return Solver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be)
+        return PythonSolver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be)
 
     def setLoadCase(self, loadCase):
         for i in range(loadCase.nodeForceCases.__len__()):

@@ -3,12 +3,12 @@
 class twist100:
     # LOADS
     # specify forces as a list, then place that list at the end of a list of nodes affected by that force
-    forceUp = [0, 0, 100, 0, 0, 0]
-    nodesForceUp = [0, forceUp]
+    forceUp = [100, 0, 100, 0, 0, 0]
+    nodesForceUp = [0, 5, forceUp]
 
     # do this again for every distinct force in the simulation
-    forceDown = [0, 0, -100, 0, 0, 0]
-    nodesForceDown = [1, forceDown]
+    forceDown = [-100, 0, -100, 0, 0, 0]
+    nodesForceDown = [1, 4, forceDown]
 
     # put all the lists of nodes (followed by the forces that affect them) in one big list called "nodeForceCases"
     nodeForceCases = [nodesForceUp, nodesForceDown]

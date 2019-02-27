@@ -10,21 +10,19 @@ def cart2sph(x, y, z):
     return az, el, r
 
 
-def Solver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be):
+def PythonSolver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be):
     con = np.array(con)
     Ni = np.zeros((12, 12, numTubes))
     S = np.zeros((6*numNodes, 6*numNodes))
     Pf = np.zeros((np.size(S[:,1]), 1))
     Q = np.zeros((12, numTubes))
-    Qfi = Q
-    Ei = Q
+    Qfi = Q.copy()
+    Ei = Q.copy()
     for i in range(numTubes):
         H = con[:, i]
         h0 = int(H[0])
         h1 = int(H[1])
         C = np.subtract(coord[:, h1-1], coord[:, h0-1])
-
-
         e = np.append(np.arange(6*h0-6, 6*h0), np.arange(6*h1-6, 6*h1))
         c = be[i]
         a, b, L = cart2sph(C[0], C[2], C[1])
@@ -82,44 +80,49 @@ def Solver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I
             M[:, q] = np.array([[-B], [A], [B], [W]])
         # End of non-debugged code
 
-        # I don't think this is doing anything K = np.matmul(M, K)
         Ni[:, :, i] = np.matmul(K, T)
         toAdd = np.matmul(T.transpose(), Ni[:,:,i])
         for j in range(np.size(e)):
             for k in range(np.size(e)):
                 S[e[j],e[k]] += toAdd[j, k]
-
         Qfi[:, i] = np.matmul(M, Qf.transpose())
-
         toAdd = np.matmul(np.matmul(T.transpose(), M), np.add(Qf, Qfs))
         for j in range(np.size(e)):
             Pf[e[j]] += toAdd[j]
         Ei[:, i] = e
     V = 1 - (np.logical_or(fixtures, St))
+    vFlat = V.flatten('F')
     index = 0
     f = []
-    for j in range(np.size(V[:,1])):
-        for k in range(np.size(V[1,:])):
-            if V[j, k] != 0:
-                f.append(index)
-                index += 1
+    for j in range(np.size(vFlat)):
+        if vFlat[j] != 0:
+            f.append(index)
+        index += 1
     f = np.array(f)
-
-    vFlat = V.flatten('F')
     loads = np.array(loads).flatten('F')[f]
     relevantS = np.empty((np.size(f), np.size(f)))
     for j in range(np.size(f)):
         for k in range(np.size(f)):
-            relevantS[j , k] = S[f[j],f[k]]
+            relevantS[j, k] = S[f[j],f[k]]
     fixedEndForces = Pf[f].transpose()
     forcesSubtracted = np.subtract(loads, fixedEndForces)
     vResults = np.linalg.solve(relevantS, forcesSubtracted.transpose())
-
-    R = np.reshape(np.add(np.matmul(S, vResults), Pf), 6, numNodes)
+    vFlat = np.array(vFlat, dtype=float)
+    for j in range(np.size(vResults)):
+        vFlat[f[j]] = vResults[j]
+    V = vFlat.reshape((6, numNodes), order='F')
+    RInter = np.matmul(S, vFlat)
+    R = RInter.reshape((6, numNodes), order='F')
+    R = R.flatten('F')
     R[f] = 0
+    R = R.reshape((6, numNodes), order='F')
     V = V + St
     for i in range(numTubes):
-        Q[:, i] = Ni[:, :, i]*V[Ei[:, i]]+Qfi[:, i]
+        ni = Ni[:, :, i]
+        indices = np.array(Ei[:, i], dtype=int)
+        vei = V.flatten('F')[indices]
+        inter = np.matmul(ni, vei.transpose())
+        Q[:, i] = inter + Qfi[:, i]
     return Q, V, R
 
 
