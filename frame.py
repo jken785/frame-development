@@ -7,6 +7,7 @@ from solver import *
 from generateMatrices import *
 import numpy as np
 
+
 class Frame:
 
     def __init__(self):
