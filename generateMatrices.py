@@ -48,8 +48,8 @@ def generateMatrices(frame, printOn):
         tube = frame.tubes.__getitem__(i)
         nodeFromIndex = frame.nodes.index(tube.nodeFrom)
         nodeToIndex = frame.nodes.index(tube.nodeTo)
-        con[0][i] = nodeFromIndex
-        con[1][i] = nodeToIndex
+        con[0][i] = nodeFromIndex + 1
+        con[1][i] = nodeToIndex + 1
         con[2][i], con[3][i] = 1, 1
 
         E[i] = tube.E
@@ -71,6 +71,6 @@ def generateMatrices(frame, printOn):
         print(I_z, "\n")
         print(J, "\n")
 
-    return numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_z, I_z, J, St, be
+    return numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be
 
 

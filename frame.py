@@ -2,14 +2,20 @@ import random
 from tubeSizes import allSizes
 from node import *
 from tube import *
-from loadCases import *
-
+import generateMatrices
+import solver
+from solver import *
+from generateMatrices import *
 
 class Frame:
 
     def __init__(self):
         self.tubes = []
         self.nodes = []
+
+    def solve(self):
+        numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be = generateMatrices(self, False)
+        return Solver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be)
 
     def setLoadCase(self, loadCase):
         for i in range(loadCase.nodeForceCases.__len__()):

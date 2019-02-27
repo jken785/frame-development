@@ -4,11 +4,11 @@ class twist100:
     # LOADS
     # specify forces as a list, then place that list at the end of a list of nodes affected by that force
     forceUp = [0, 0, 100, 0, 0, 0]
-    nodesForceUp = [0, 1, forceUp]
+    nodesForceUp = [0, forceUp]
 
     # do this again for every distinct force in the simulation
     forceDown = [0, 0, -100, 0, 0, 0]
-    nodesForceDown = [2, 3, forceDown]
+    nodesForceDown = [1, forceDown]
 
     # put all the lists of nodes (followed by the forces that affect them) in one big list called "nodeForceCases"
     nodeForceCases = [nodesForceUp, nodesForceDown]
@@ -17,7 +17,7 @@ class twist100:
     # to define a node's fixtures more specifically, use Frame.setFixtures(self, node, x, y, z, xMom, yMom, zMom)
 
     # put any nodes that you would like to complete fix in the list below:
-    fixedNodes = [0, 2]
+    fixedNodes = [2, 3]
 
 class twist200:
     # LOADS
