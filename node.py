@@ -1,9 +1,10 @@
 
 class Node:
 
-    def __init__(self, frame, name, x, y, z):
+    def __init__(self, frame, name, x, y, z, isSymmetric):
         self.name = name
         self.frame = frame
+        self.isSymmetric = isSymmetric
         self.x = x
         self.y = y
         self.z = z

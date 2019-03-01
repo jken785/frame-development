@@ -110,5 +110,6 @@ class SQ_1x65:
 
 
 # When adding a tube, don't forget to also add its name to this list (used for random selection)
-allSizes = [RD_5x35, RD_5x49, RD_75x35, RD_75x49, RD_1x35, RD_1x49, RD_1x65, RD_1x83,
-            RD_1x95, RD_1x120, RD_1xSLD, SQ_1x35, SQ_1x49, SQ_1x65]
+# MUST BE IN ORDER OF INCREASING OD, THEN WALL THICKNESS (AND NO SQUARE TUBES -- THOSE MUST BE SET MANUALLY)
+allRoundSizes = [RD_5x35, RD_5x49, RD_75x35, RD_75x49, RD_1x35, RD_1x49, RD_1x65, RD_1x83,
+            RD_1x95, RD_1x120, RD_1xSLD]
