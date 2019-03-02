@@ -4,37 +4,46 @@ from loadCases import *
 import loadCases
 from createBaseFrame import *
 from objectiveFunction import *
-
+import math
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
+iters = 5000
+maxScorePerWeight = 0
+maximumDisp = 0
+maxScore = 0
+maxFrame = None
+tolerance = 0.0001
+
+baseFrame = createBaseFrame()
+baseFrameScore = baseFrame.solveAllLoadCases()
+print("\nBase Frame Weight:", baseFrame.weight)
+print("\nBase Frame Score:", baseFrameScore)
+
+for i in range(iters):
+    frame = createBaseFrame()
+    frame.randomizeAllThicknesses()
+    scorePerWeight, score, maxDisp = frame.solveAllLoadCases()
+    if maxScorePerWeight < (scorePerWeight - tolerance):
+        maxScorePerWeight = scorePerWeight
+        maxScore = score
+        maximumDisp = maxDisp
+        maxFrame = frame
+    if i % 100 is 0 and i is not 0:
+        print("\nAfter", i,"iterations:")
+        maxFrame.toString()
+        print("Max Score Per Weight:\t",maxScorePerWeight)
+        print("Max Score (just displacement):\t", maxScore)
+        print("Max Displacement:\t", maximumDisp)
 
 
-frame = createBaseFrame()
+maxFrame.plot(25)
 
-
-
-
-
-frame.toString('all')
-
-# _, displacements, _= frame.solve()
-# val1 = ObjectiveFunction(displacements)
-# print("val1:",val1)
-#
-# frame.setLoadCase(LoadCases.twist200)
-# _, displacements, _= frame.solve()
-# val2 = ObjectiveFunction(displacements)
-# print("val2:", val2)
-#
-# score = frame.solveAllLoadCases()
-# print("Score:",score)
-
-
-frame.plot(25)
-
+print(scores)
+print(weights)
+print('FINISHED')
 # inputCommand = input("Enter your command and I will do as you wish:\n")
 # exec(inputCommand)
 
