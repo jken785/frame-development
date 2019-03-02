@@ -52,12 +52,12 @@ def generateMatrices(frame, printOn):
         con[1][i] = nodeToIndex + 1
         con[2][i], con[3][i] = 1, 1
 
-        E[i] = tube.E
-        G[i] = tube.G
-        areas[i] = tube.A
-        I_y[i] = tube.I
-        I_z[i] = tube.I
-        J[i] = tube.J
+        E[i] = tube.size.E
+        G[i] = tube.size.G
+        areas[i] = tube.size.A
+        I_y[i] = tube.size.I
+        I_z[i] = tube.size.I
+        J[i] = tube.size.J
 
     if printOn:
         print(coord, "\n")

@@ -4,16 +4,13 @@ import tubeSizes
 
 class Tube:
 
-    def __init__(self, frame, size, minSize, nodeFrom, nodeTo, isSymmetric):
-        self.E = tubeSizes.E
-        self.G = tubeSizes.G
-        self.A = size.A
-        self.I = size.I
-        self.J = size.J
+    def __init__(self, frame, size, minSize, nodeFrom, nodeTo, isSymmetric, isRequired):
+        self.size = size
+        self.isRequired = isRequired
         self.isSymmetric = isSymmetric
         self.isRound = size.round
         self.minSize = minSize
-        self.tubeSize = size.name
+        self.tubeSizeString = size.name
         self.distLoad = [0, 0, 0]
         for node in frame.nodes:
             if nodeFrom == node.name:
@@ -25,10 +22,8 @@ class Tube:
         self.weight = self.getWeight(self.length)
 
     def changeThickness(self, size):
-        self.A = size.A
-        self.I = size.I
-        self.J = size.J
-        self.tubeSize = size.name
+        self.size = size
+        self.tubeSizeString = size.name
         self.weight = self.getWeight(self.getLength(self.nodeFrom, self.nodeTo))
 
     def getLength(self, nodeFrom, nodeTo):
@@ -39,10 +34,10 @@ class Tube:
         return length
 
     def getWeight(self, length):
-        volume = length * self.A
+        volume = length * self.size.A
         density = tubeSizes.density
         return volume*density
 
     def toString(self):
-        return self.tubeSize
+        return self.tubeSizeString
 

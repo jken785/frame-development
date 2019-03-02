@@ -1,13 +1,44 @@
 
 class Node:
 
-    def __init__(self, frame, name, x, y, z, isSymmetric):
+    def __init__(self, frame, name, x, y, z, isSymmetric, isRequired, maxXPosDev=None, maxXNegDev=None, maxYPosDev=None, maxYNegDev=None, maxZPosDev=None, maxZNegDev=None,):
         self.name = name
         self.frame = frame
         self.isSymmetric = isSymmetric
         self.x = x
         self.y = y
         self.z = z
+        self.xOrig = x
+        self.yOrig = y
+        self.zOrig = z
+        if maxXPosDev is not None:
+            self.maxXPosDev = maxXPosDev
+        else:
+            self.maxXPosDev = 0
+        if maxXNegDev is not None:
+            self.maxXNegDev = maxXNegDev
+        else:
+            self.maxXNegDev = 0
+
+        if maxYPosDev is not None:
+            self.maxYPosDev = maxYPosDev
+        else:
+            self.maxYPosDev = 0
+        if maxYNegDev is not None:
+            self.maxYNegDev = maxYNegDev
+        else:
+            self.maxYNegDev = 0
+
+        if maxZPosDev is not None:
+            self.maxZPosDev = maxZPosDev
+        else:
+            self.maxZPosDev = 0
+        if maxZNegDev is not None:
+            self.maxZNegDev = maxZNegDev
+        else:
+            self.maxZNegDev = 0
+
+        self.isRequired = isRequired
         self.tubes = []
         self.forcesApplied = [0, 0, 0, 0, 0, 0]
         self.fixtures = [0, 0, 0, 0, 0, 0]
