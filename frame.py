@@ -24,15 +24,14 @@ class Frame:
     def solveAllLoadCases(self):
         score = 0
         scorePerWeight = 0
-        maxDisp = 0
+        avgDisp = 0
         for loadCase in LoadCases.listLoadCases:
             self.setLoadCase(loadCase)
-            scorePerWeightToAdd, scoreToAdd, maxDispToTest = self.solve()
+            scorePerWeightToAdd, scoreToAdd, avgDisplacement = self.solve()
             scorePerWeight += scorePerWeightToAdd
             score += scoreToAdd
-            if maxDispToTest > maxDisp:
-                maxDisp = maxDispToTest
-        return scorePerWeight, score, maxDisp
+            avgDisp += avgDisplacement
+        return scorePerWeight, score, avgDisp
 
     def solve(self):
         numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be = generateMatrices(self, False)
@@ -98,6 +97,14 @@ class Frame:
             symTube.changeThickness(size)
         self.getWeight()
 
+    def randomizeThicknessOfRandomTube(self):
+        randTube = random.choice(self.tubes)
+        index = self.tubes.index(randTube)
+        if randTube.isRound:
+            sizeIndex = allRoundSizes.index(randTube.minSize)
+            availableSizes = allRoundSizes[sizeIndex:len(allRoundSizes)]
+            thickness = random.choice(availableSizes)
+            self.changeTubeThickness(index, thickness)
 
     # will not allow changes to square tubes
     def randomizeThickness(self, index):
