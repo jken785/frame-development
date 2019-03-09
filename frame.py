@@ -130,6 +130,9 @@ class Frame:
         if node.isSymmetric:
             symNode = self.getSymmetricNode(node)
             symNode.changeLocation(x, -y, z)
+        for tube in self.tubes:
+            tube.length = tube.getLength(tube.nodeFrom, tube.nodeFrom)
+            tube.weight = tube.getWeight(tube.length)
         self.getWeight()
 
     def randomizeLocationOfRandomNode(self):

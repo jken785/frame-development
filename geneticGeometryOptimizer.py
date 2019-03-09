@@ -10,9 +10,9 @@ def sortingKey(elem):
 
 # Important Parameters
 numGenerations = 100
-numSeeds = 5
-numChildrenPerSeed = 5
-maxNumRandNodes = 3
+numSeeds = 2
+numChildrenPerSeed = 3
+maxNumRandNodes = 2
 
 maxDispOfAnyTargetNode = 0.3
 maxAvgDisp = 0.25
@@ -20,7 +20,7 @@ maxWeight = 60
 
 finalDisplacementScaling = 20
 graphUpdatePeriod = 1
-plotCurrentFrame = True
+plotCurrentFrame = False
 
 
 # Time the simulation
