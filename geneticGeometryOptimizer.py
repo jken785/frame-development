@@ -10,16 +10,17 @@ def sortingKey(elem):
 
 # Important Parameters
 numGenerations = 100
-numSeeds = 3
+numSeeds = 5
 numChildrenPerSeed = 5
-maxNumRandTubes = 10
+maxNumRandNodes = 3
 
-maxDispOfAnyTargetNode = 0.26
+maxDispOfAnyTargetNode = 0.3
 maxAvgDisp = 0.25
 maxWeight = 60
 
+finalDisplacementScaling = 20
 graphUpdatePeriod = 1
-plotCurrentFrame = False
+plotCurrentFrame = True
 
 
 # Time the simulation
@@ -27,7 +28,7 @@ start = time.time()
 
 # Set up graphs (change size of figure's window using the first line below)
 fig = plt.figure(figsize=(12,9))
-fig.suptitle("Genetic Simulation - Thickness")
+fig.suptitle("Genetic Simulation - Geometry")
 grid = plt.GridSpec(3, 4, hspace=0.3, wspace=0.2)
 ax1 = fig.add_subplot(grid[0, :2], title="Score/Weight vs Generations")
 ax1.set_ylabel('Objective Function Score')
@@ -36,8 +37,8 @@ ax2.set_ylabel('Inches')
 ax3 = fig.add_subplot(grid[2, :2], title="Weight vs Generations")
 ax3.set_ylabel('Pounds')
 if plotCurrentFrame:
-    ax4 = fig.add_subplot(grid[1:, 2:], title="Maximum Frame", projection='3d')
-    ax5 = fig.add_subplot(grid[0, 2:], title="Current Frame", projection='3d')
+    ax4 = fig.add_subplot(grid[2:, 2:], title="Maximum Frame", projection='3d')
+    ax5 = fig.add_subplot(grid[:2, 2:], title="Current Frame", projection='3d')
 else:
     ax4 = fig.add_subplot(grid[0:, 2:], title="Maximum Frame", projection='3d')
 ax1.grid()
@@ -101,9 +102,9 @@ for gen in range(1, numGenerations+1):
         individuals.append(theSameInd)
         for i in range(1, numChildrenPerSeed):
             individual = copy.deepcopy(seed)
-            numRandTubes = random.randint(1,maxNumRandTubes+1)
-            for j in range(numRandTubes):
-                individual.randomizeThicknessOfRandomTube()
+            numRandNodes = random.randint(1, maxNumRandNodes + 1)
+            for j in range(numRandNodes):
+                individual.randomizeLocationOfRandomNode()
             individuals.append(individual)
             if plotCurrentFrame:
                 ax5.clear()
@@ -190,6 +191,6 @@ if not errorFlag:
     for loadCase in LoadCases.listLoadCases:
         maxFrame.setLoadCase(loadCase)
         maxFrame.solve()
-        maxFrame.plot(50)
+        maxFrame.plot(finalDisplacementScaling)
 
 

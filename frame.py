@@ -12,6 +12,7 @@ class Frame:
     def __init__(self):
         self.tubes = []
         self.nodes = []
+        self.geometryOptNodes = []
         self.torStiffness = None
         self.weight = None
         self.internalForces = None
@@ -123,6 +124,61 @@ class Frame:
         for i in range(len(self.tubes)):
             self.randomizeThickness(i)
 
+    def changeNodeLocation(self, index, x, y, z):
+        node = self.nodes.__getitem__(index)
+        node.changeLocation(x, y, z)
+        if node.isSymmetric:
+            symNode = self.getSymmetricNode(node)
+            symNode.changeLocation(x, -y, z)
+        self.getWeight()
+
+    def randomizeLocationOfRandomNode(self):
+        yOnCenterline = False
+        node = random.choice(self.geometryOptNodes)
+        index = self.nodes.index(node)
+        xPos = node.xOrig + node.maxXPosDev
+        xNeg = node.xOrig - node.maxXNegDev
+        if node.yOrig is 0:
+            yOnCenterline = True
+        else:
+            yPos = node.yOrig + node.maxYPosDev
+            yNeg = node.yOrig - node.maxYNegDev
+        zPos = node.zOrig + node.maxZPosDev
+        zNeg = node.zOrig - node.maxZNegDev
+
+        newX = random.uniform(xNeg, xPos)
+        if yOnCenterline:
+            newY = 0
+        else:
+            newY = random.uniform(yNeg, yPos)
+        newZ = random.uniform(zPos, zNeg)
+
+        self.changeNodeLocation(index, newX, newY, newZ)
+
+    def randomizeAllNodeLocations(self):
+        for node in self.geometryOptNodes:
+            yOnCenterline = False
+            index = self.nodes.index(node)
+            xPos = node.xOrig + node.maxXPosDev
+            xNeg = node.xOrig - node.maxXNegDev
+            if node.yOrig is 0:
+                yOnCenterline = True
+            else:
+                yPos = node.yOrig + node.maxYPosDev
+                yNeg = node.yOrig - node.maxYNegDev
+            zPos = node.zOrig + node.maxZPosDev
+            zNeg = node.zOrig - node.maxZNegDev
+
+            newX = random.uniform(xNeg, xPos)
+            if yOnCenterline:
+                newY = 0
+            else:
+                newY = random.uniform(yNeg, yPos)
+            newZ = random.uniform(zPos, zNeg)
+
+            self.changeNodeLocation(index, newX, newY, newZ)
+
+
     def addNode(self, name, x, y, z, isSymmetric, isRequired, maxXPosDev=None, maxXNegDev=None, maxYPosDev=None, maxYNegDev=None, maxZPosDev=None, maxZNegDev=None):
         node = Node(self, name, x, y, z, isSymmetric, isRequired, maxXPosDev, maxXNegDev, maxYPosDev, maxYNegDev, maxZPosDev, maxZNegDev)
         self.nodes.append(node)
@@ -130,6 +186,8 @@ class Frame:
             symName = name + "#m"
             symNode = Node(self, symName, x, -y, z, isSymmetric, isRequired, maxXPosDev, maxXNegDev, maxYNegDev, maxYPosDev, maxZPosDev, maxZNegDev)
             self.nodes.append(symNode)
+        if node.geometryOptPossible:
+            self.geometryOptNodes.append(node)
 
     def removeNode(self, index):
         node = self.nodes.__getitem__(index)
@@ -138,6 +196,8 @@ class Frame:
             for tube in symNode.tubes:
                 self.tubes.remove(tube)
             self.nodes.remove(symNode)
+        if node.geometryOptPossible:
+            self.geometryOptNodes.remove(node)
         for tube in node.tubes:
             self.tubes.remove(tube)
         self.nodes.remove(node)

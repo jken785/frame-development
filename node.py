@@ -11,37 +11,28 @@ class Node:
         self.xOrig = x
         self.yOrig = y
         self.zOrig = z
-        if maxXPosDev is not None:
-            self.maxXPosDev = maxXPosDev
-        else:
-            self.maxXPosDev = 0
-        if maxXNegDev is not None:
-            self.maxXNegDev = maxXNegDev
-        else:
-            self.maxXNegDev = 0
 
-        if maxYPosDev is not None:
-            self.maxYPosDev = maxYPosDev
+        if maxXPosDev is not None and maxYPosDev is not None and maxZPosDev is not None:
+            if maxXNegDev is not None and maxYNegDev is not None and maxZNegDev is not None:
+                self.maxXPosDev = maxXPosDev
+                self.maxXNegDev = maxXNegDev
+                self.maxYPosDev = maxYPosDev
+                self.maxYNegDev = maxYNegDev
+                self.maxZPosDev = maxZPosDev
+                self.maxZNegDev = maxZNegDev
+                self.geometryOptPossible = True
         else:
-            self.maxYPosDev = 0
-        if maxYNegDev is not None:
-            self.maxYNegDev = maxYNegDev
-        else:
-            self.maxYNegDev = 0
-
-        if maxZPosDev is not None:
-            self.maxZPosDev = maxZPosDev
-        else:
-            self.maxZPosDev = 0
-        if maxZNegDev is not None:
-            self.maxZNegDev = maxZNegDev
-        else:
-            self.maxZNegDev = 0
+            self.geometryOptPossible = False
 
         self.isRequired = isRequired
         self.tubes = []
         self.forcesApplied = [0, 0, 0, 0, 0, 0]
         self.fixtures = [0, 0, 0, 0, 0, 0]
+
+    def changeLocation(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
 
     def updateConnectingTubes(self):
         for tube in self.tubes:
