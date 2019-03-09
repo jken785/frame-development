@@ -22,7 +22,6 @@ finalDisplacementScaling = 20
 graphUpdatePeriod = 1
 plotCurrentFrame = False
 
-
 # Time the simulation
 start = time.time()
 
