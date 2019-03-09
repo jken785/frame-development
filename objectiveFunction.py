@@ -1,5 +1,4 @@
 from loadCases import *
-import numpy as np
 import math
 
 def ObjectiveFunction(frame):
@@ -24,7 +23,9 @@ def ObjectiveFunction(frame):
 
             objFuncValue += (totalDisp*dispMultiplier)
             dispList.append(totalDisp)
-    avgDisp = sum(dispList)/len(dispList)
+
     objFuncValuePerWeight = 1/((objFuncValue)+(weightMultiplier*frameWeight))
     objFuncValue = 1/objFuncValue
-    return objFuncValuePerWeight*getSigFigs, objFuncValue, avgDisp
+    avgDisp = sum(dispList) / len(dispList)
+
+    return objFuncValuePerWeight*getSigFigs, dispList, avgDisp

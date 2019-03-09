@@ -4,7 +4,7 @@ import tubeSizes
 
 class Tube:
 
-    def __init__(self, frame, size, minSize, nodeFrom, nodeTo, isSymmetric, isRequired):
+    def __init__(self, frame, size, minSize, nodeFrom, nodeTo, isSymmetric, isRequired, group):
         self.size = size
         self.isRequired = isRequired
         self.isSymmetric = isSymmetric
@@ -17,6 +17,10 @@ class Tube:
                 self.nodeFrom = node
             if nodeTo == node.name:
                 self.nodeTo = node
+        if group is not None:
+            self.group = group
+        else:
+            self.group = None
 
         self.length = self.getLength(nodeFrom, nodeTo)
         self.weight = self.getWeight(self.length)
@@ -34,9 +38,12 @@ class Tube:
         return length
 
     def getWeight(self, length):
-        volume = length * self.size.A
-        density = tubeSizes.density
-        return volume*density
+        if self.size is not tubeSizes.RD_1xSLD:
+            volume = length * self.size.A
+            density = tubeSizes.density
+            return volume*density
+        else:
+            return 0
 
     def toString(self):
         return self.tubeSizeString

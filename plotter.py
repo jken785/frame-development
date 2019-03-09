@@ -4,6 +4,13 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from tubeSizes import *
 
+def plotFrameAni(frame, axes):
+    axes.set_aspect('equal')
+    setEqualScaling(frame, axes)
+
+    for tube in frame.tubes:
+        plot(tube, axes)
+
 def plotFrame(frame, displacedScaling):
     fig = plt.figure()
     axes = fig.gca(projection='3d')

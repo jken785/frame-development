@@ -22,16 +22,14 @@ class Frame:
         return 0
 
     def solveAllLoadCases(self):
-        score = 0
         scorePerWeight = 0
         avgDisp = 0
         for loadCase in LoadCases.listLoadCases:
             self.setLoadCase(loadCase)
-            scorePerWeightToAdd, scoreToAdd, avgDisplacement = self.solve()
+            scorePerWeightToAdd, dispList, avgDisplacement = self.solve()
             scorePerWeight += scorePerWeightToAdd
-            score += scoreToAdd
             avgDisp += avgDisplacement
-        return scorePerWeight, score, avgDisp
+        return scorePerWeight, dispList, avgDisp
 
     def solve(self):
         numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be = generateMatrices(self, False)
@@ -39,8 +37,8 @@ class Frame:
         self.internalForces = internalForces
         self.displacements = displacements
         self.reactions = reactions
-        scorePerWeight, score, maxDisp = ObjectiveFunction(self)
-        return scorePerWeight, score, maxDisp
+        scorePerWeight, dispList, maxDisp = ObjectiveFunction(self)
+        return scorePerWeight, dispList, maxDisp
 
     def setLoadCase(self, loadCase):
         for node in self.nodes:
@@ -95,12 +93,16 @@ class Frame:
         if tube.isSymmetric:
             symTube = self.getSymmetricTube(tube)
             symTube.changeThickness(size)
+        if tube.group is not None:
+            for testTube in self.tubes:
+                if testTube.group is tube.group:
+                    testTube.changeThickness(size)
         self.getWeight()
 
     def randomizeThicknessOfRandomTube(self):
         randTube = random.choice(self.tubes)
         index = self.tubes.index(randTube)
-        if randTube.isRound:
+        if randTube.isRound and randTube.size is not RD_1xSLD:
             sizeIndex = allRoundSizes.index(randTube.minSize)
             availableSizes = allRoundSizes[sizeIndex:len(allRoundSizes)]
             thickness = random.choice(availableSizes)
@@ -142,15 +144,15 @@ class Frame:
         for node in self.nodes:
             node.updateConnectingTubes()
 
-    def addTube(self, size, minSize, nodeFrom, nodeTo, isSymmetric, isRequired):
-        tube = Tube(self, size, minSize, nodeFrom, nodeTo, isSymmetric, isRequired)
+    def addTube(self, size, minSize, nodeFrom, nodeTo, isSymmetric, isRequired, group=None):
+        tube = Tube(self, size, minSize, nodeFrom, nodeTo, isSymmetric, isRequired, group)
         self.tubes.append(tube)
         tube.nodeFrom.tubes.append(tube)
         tube.nodeTo.tubes.append(tube)
         if isSymmetric:
             symNodeFrom = nodeFrom + "#m"
             symNodeTo = nodeTo + "#m"
-            symTube = Tube(self, size, minSize, symNodeFrom, symNodeTo, isSymmetric, isRequired)
+            symTube = Tube(self, size, minSize, symNodeFrom, symNodeTo, isSymmetric, isRequired, group)
             self.tubes.append(symTube)
             symTube.nodeFrom.tubes.append(symTube)
             symTube.nodeTo.tubes.append(symTube)
@@ -181,7 +183,7 @@ class Frame:
             self._printNodes(long)
         if printType == "tubes":
             self._printTubes(long)
-        print("\nTotal Weight:", '%.3f' % self.weight, "lbs")
+        print("Total Weight:", '%.3f' % self.weight, "lbs")
 
     def _printTubes(self, long):
         print("\nTUBES:", self.tubes.__len__(), "total")
@@ -233,6 +235,9 @@ class Frame:
 
     def plot(self, displacedScaling):
         plotFrame(self, displacedScaling)
+
+    def plotAni(self, axes):
+        plotFrameAni(self, axes)
 
 
 
