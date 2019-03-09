@@ -9,10 +9,10 @@ def sortingKey(elem):
 
 
 # Important Parameters
-numGenerations = 100
-numSeeds = 2
-numChildrenPerSeed = 3
-maxNumRandNodes = 2
+numGenerations = 50
+numSeeds = 7
+numChildrenPerSeed = 10
+maxNumRandNodes = 1
 
 maxDispOfAnyTargetNode = 0.3
 maxAvgDisp = 0.25

@@ -6,7 +6,7 @@ def ObjectiveFunction(frame):
     normalizer = 0
     getSigFigs = 10
     frameWeight = frame.weight
-    weightMultiplier = 0.008
+    weightMultiplier = 0.01
 
     # this loop normalizes the objFuncWeights across all load cases
     for loadCase in LoadCases.listLoadCases:

@@ -126,10 +126,16 @@ class Frame:
 
     def changeNodeLocation(self, index, x, y, z):
         node = self.nodes.__getitem__(index)
+        deltaX = x - node.x
         node.changeLocation(x, y, z)
         if node.isSymmetric:
             symNode = self.getSymmetricNode(node)
             symNode.changeLocation(x, -y, z)
+        if node.hasXGroup:
+            for xGroupNode in self.geometryOptNodes:
+                if xGroupNode.hasXGroup:
+                    if xGroupNode.xGroup == node.xGroup:
+                        xGroupNode.x += deltaX
         for tube in self.tubes:
             tube.length = tube.getLength(tube.nodeFrom, tube.nodeFrom)
             tube.weight = tube.getWeight(tube.length)
@@ -182,12 +188,12 @@ class Frame:
             self.changeNodeLocation(index, newX, newY, newZ)
 
 
-    def addNode(self, name, x, y, z, isSymmetric, isRequired, maxXPosDev=None, maxXNegDev=None, maxYPosDev=None, maxYNegDev=None, maxZPosDev=None, maxZNegDev=None):
-        node = Node(self, name, x, y, z, isSymmetric, isRequired, maxXPosDev, maxXNegDev, maxYPosDev, maxYNegDev, maxZPosDev, maxZNegDev)
+    def addNode(self, name, x, y, z, isSymmetric, isRequired, maxXPosDev=None, maxXNegDev=None, maxYPosDev=None, maxYNegDev=None, maxZPosDev=None, maxZNegDev=None,xGroup=None):
+        node = Node(self, name, x, y, z, isSymmetric, isRequired, maxXPosDev, maxXNegDev, maxYPosDev, maxYNegDev, maxZPosDev, maxZNegDev, xGroup)
         self.nodes.append(node)
         if isSymmetric:
             symName = name + "#m"
-            symNode = Node(self, symName, x, -y, z, isSymmetric, isRequired, maxXPosDev, maxXNegDev, maxYNegDev, maxYPosDev, maxZPosDev, maxZNegDev)
+            symNode = Node(self, symName, x, -y, z, isSymmetric, isRequired, maxXPosDev, maxXNegDev, maxYNegDev, maxYPosDev, maxZPosDev, maxZNegDev, xGroup)
             self.nodes.append(symNode)
         if node.geometryOptPossible:
             self.geometryOptNodes.append(node)

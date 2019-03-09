@@ -1,7 +1,7 @@
 
 class Node:
 
-    def __init__(self, frame, name, x, y, z, isSymmetric, isRequired, maxXPosDev=None, maxXNegDev=None, maxYPosDev=None, maxYNegDev=None, maxZPosDev=None, maxZNegDev=None,):
+    def __init__(self, frame, name, x, y, z, isSymmetric, isRequired, maxXPosDev=None, maxXNegDev=None, maxYPosDev=None, maxYNegDev=None, maxZPosDev=None, maxZNegDev=None, xGroup=None,):
         self.name = name
         self.frame = frame
         self.isSymmetric = isSymmetric
@@ -11,6 +11,10 @@ class Node:
         self.xOrig = x
         self.yOrig = y
         self.zOrig = z
+        self.hasXGroup = False
+        if xGroup is not None:
+            self.hasXGroup = True
+            self.xGroup = xGroup
 
         if maxXPosDev is not None and maxYPosDev is not None and maxZPosDev is not None:
             if maxXNegDev is not None and maxYNegDev is not None and maxZNegDev is not None:
