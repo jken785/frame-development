@@ -17,6 +17,7 @@ solidLinewidth = 4
 # J is the polar moment of inertia about the cross-section
 class RD_5x35:
     name = "0.5 x 0.035"
+    string = "RD_5x35"
     E = E
     G = G
     A = 0.051129
@@ -28,6 +29,7 @@ class RD_5x35:
 
 class RD_5x49:
     name = "0.5 x 0.049"
+    string = "RD_5x49"
     E = E
     G = G
     A = 0.0694261
@@ -39,6 +41,7 @@ class RD_5x49:
 
 class RD_75x35:
     name = "0.75 x 0.035"
+    string = "RD_75x35"
     E = E
     G = G
     A = 0.078618
@@ -50,6 +53,7 @@ class RD_75x35:
 
 class RD_75x49:
     name = "0.75 x 0.049"
+    string = "RD_75x49"
     E = E
     G = G
     A = 0.1079106
@@ -61,6 +65,7 @@ class RD_75x49:
 
 class RD_1x35:
     name = "1 x 0.035"
+    string = "RD_1x35"
     E = E
     G = G
     A = 0.106107
@@ -72,6 +77,7 @@ class RD_1x35:
 
 class RD_1x49:
     name = "1 x 0.049"
+    string = "RD_1x49"
     E = E
     G = G
     A = 0.146395
@@ -83,6 +89,7 @@ class RD_1x49:
 
 class RD_1x65:
     name = "1 x 0.065"
+    string = "RD_1x65"
     E = E
     G = G
     A = 0.19093
@@ -94,6 +101,7 @@ class RD_1x65:
 
 class RD_1x83:
     name = "1 x 0.083"
+    string = "RD_1x83"
     E = E
     G = G
     A = 0.239110
@@ -105,6 +113,7 @@ class RD_1x83:
 
 class RD_1x95:
     name = "1 x 0.095"
+    string = "RD_1x95"
     E = E
     G = G
     A = 0.270098
@@ -116,6 +125,7 @@ class RD_1x95:
 
 class RD_1x120:
     name = "1 x 0.120"
+    string = "RD_1x120"
     E = E
     G = G
     A = 0.331752
@@ -127,6 +137,7 @@ class RD_1x120:
 
 class RD_1xSLD:
     name = "1 x Solid"
+    string = "RD_1xSLD"
     E = E
     G = G
     A = 0.785398
@@ -138,6 +149,7 @@ class RD_1xSLD:
 
 class SQ_1x35:
     name = "1 x 1 x 0.035"
+    string = "SQ_1x35"
     E = E
     G = G
     A = 0.1321857
@@ -149,6 +161,7 @@ class SQ_1x35:
 
 class SQ_1x49:
     name = "1 x 1 x 0.049"
+    string = "SQ_1x49"
     E = E
     G = G
     A = 0.1806335
@@ -161,6 +174,7 @@ class SQ_1x49:
 
 class SQ_1x65:
     name = "1 x 1 x 0.065"
+    string = "SQ_1x65"
     E = E
     G = G
     A = 0.2330008

@@ -2,6 +2,7 @@
 class LoadCases:
 
     class twist:
+        name = "Torsional Stiffness"
         # LOADS
         # specify forces as a list, then place that list at the end of a list of nodes affected by that force
         forceUp = [0, 0, 200, 0, 0, 0]
@@ -31,6 +32,7 @@ class LoadCases:
 
 
     class suspLoads:
+        name = "Suspension Loads"
         damperForce = [0, 0, 200, 0, 0, 0]
         damperLoadNodes = [12, 13, damperForce]
 
@@ -43,10 +45,10 @@ class LoadCases:
 
         nodeForceCases = [damperLoadNodes, rockerForceRightNodes, rockerForceLeftNodes]
 
-        fixedNodes = [52, 46, 47, 44, 45, 8, 9, 4, 5]
+        fixedNodes = [52, 46, 47, 44, 45]
 
         objFuncNodes = [12, 13, 31, 32]
         objFuncWeight = 0.5
 
     # Must add each load case that you wish to include while optimizing
-    listLoadCases = [twist]
+    listLoadCases = [twist, suspLoads]

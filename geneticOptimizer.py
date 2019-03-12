@@ -1,38 +1,61 @@
 # Important Sim Parameters
 # ----------------------------
-numGenerations = 1
-numSeeds = 2
-numChildrenPerSeed = 5
-maxNumRandNodes = 1
+numGenerations = 100
+numSeeds = 7
+numChildrenPerSeed = 10
+maxNumRandNodes = 2
+maxNumRandTubes = 5
 
 weightMultiplier = 0.01
 maxDispOfAnyTargetNode = 0.31
-maxAvgDisp = 0.28
+maxAvgDisp = 0.271
 maxWeight = 59.51
+
+useOriginalBaseFrame = True
 # ----------------------------
 
 
 # Plotting parameters
 # ----------------------------
-finalDisplacementScaling = 20
+finalDisplacementScaling = 15
 graphUpdatePeriod = 1
-plotCurrentFrame = True
+plotCurrentFrame = False
 # ----------------------------
 
-print("--PARAMETERS--")
-print("\nNumber of Generations:", numGenerations)
-print("Number of Surviving Seeds Per Generation:",numSeeds)
-print("Number of Children Per Seed Per Generation:", numChildrenPerSeed)
-print("Maximum number of mutated nodes per individual:", maxNumRandNodes)
-print("\nMaximum displacement allowed for any target node:", maxDispOfAnyTargetNode, "inches")
-print("Maximum average displacement allowed for all target nodes:", maxAvgDisp, "inches")
-print("Maximum weight allowed:", maxWeight, "pounds")
-
+from createFrame import *
 from createBaseFrame import *
 import copy
 import matplotlib.pyplot as plt
 import time
 from loadCases import *
+import os
+import datetime
+
+currentDateTime = datetime.datetime.now()
+workingDir = os.getcwd()
+path = "%s\\results" % workingDir
+if os.path.isdir(path) is False:
+    os.mkdir(path)
+timestamp = currentDateTime.strftime("%Y-%m-%d %Hh %Mm %Ss")
+simFolderPath = "%s\\results\\%s" % (workingDir, timestamp)
+os.mkdir(simFolderPath)
+consOutPath = "%s\\consoleOuput.txt" % simFolderPath
+consoleOutput = open(consOutPath, "w")
+
+def printOut(line):
+    print(line)
+    consoleOutput.write(line)
+    consoleOutput.write("\n")
+
+printOut("--PARAMETERS--")
+printOut("\nNumber of Generations: %i" % numGenerations)
+printOut("Number of Surviving Seeds Per Generation: %i" % numSeeds)
+printOut("Number of Children Per Seed Per Generation: %i" % numChildrenPerSeed)
+printOut("\nMaximum number of mutated tubes per individual: %i" % maxNumRandTubes)
+printOut("Maximum number of mutated nodes per individual: %i" % maxNumRandNodes)
+printOut("\nMaximum displacement allowed for any target node: %.5f inches" % maxDispOfAnyTargetNode)
+printOut("Maximum average displacement allowed for all target nodes: %.5f inches" % maxAvgDisp)
+printOut("Maximum weight allowed: %.3f pounds" % maxWeight)
 
 def sortingKey(elem):
     return elem[0]
@@ -68,13 +91,15 @@ maxScoresPerWeight = []
 weights = []
 averageDisps = []
 iterations = []
-
-baseFrame = createBaseFrame()
+if useOriginalBaseFrame:
+    baseFrame = createBaseFrame()
+else:
+    baseFrame = createFrame()
 baseFrameScorePerWeight, dispList, baseFrameAvgDisp = baseFrame.solveAllLoadCases(weightMultiplier)
-print("\nBase Frame Weight:", baseFrame.weight)
-print("Base Frame Score:", baseFrameScorePerWeight)
-print("Base Frame Avg. Disp.:", baseFrameAvgDisp)
-print("Base Frame Max Disp of A Target Node:", max(dispList))
+printOut("\nBase Frame Weight: %.3f" % baseFrame.weight)
+printOut("Base Frame Score: %.3f" % baseFrameScorePerWeight)
+printOut("Base Frame Avg. Disp.: %.5f" % baseFrameAvgDisp)
+printOut("Base Frame Max Disp of A Target Node: %.5f" % max(dispList))
 
 maxScoresPerWeight.append(baseFrameScorePerWeight)
 weights.append(baseFrame.weight)
@@ -99,10 +124,11 @@ fig.suptitle("Starting in 2")
 plt.pause(1)
 fig.suptitle("Starting in 1")
 plt.pause(1)
-fig.suptitle("Genetic Simulation - Geometry Only")
+fig.suptitle("Genetic Simulation - Geometry and Thickness")
 plt.pause(.001)
 
-print("\n--START--")
+printOut("\n--START--")
+
 for gen in range(1, numGenerations+1):
     # Generate generation individuals
     if gen is 1:
@@ -113,9 +139,15 @@ for gen in range(1, numGenerations+1):
         individuals.append(theSameInd)
         for i in range(1, numChildrenPerSeed):
             individual = copy.deepcopy(seed)
-            numRandNodes = random.randint(1, maxNumRandNodes)
-            for j in range(numRandNodes):
-                individual.randomizeLocationOfRandomNode()
+            randomizeThicknessNotGeometry = random.choice((True, False))
+            if randomizeThicknessNotGeometry:
+                numRandTubes = random.randint(1, maxNumRandTubes)
+                for j in range(numRandTubes):
+                    individual.randomizeThicknessOfRandomTube()
+            else:
+                numRandNodes = random.randint(1, maxNumRandNodes)
+                for j in range(numRandNodes):
+                    individual.randomizeLocationOfRandomNode()
             individuals.append(individual)
             if plotCurrentFrame:
                 individual.plotAni(ax5, "Current Frame")
@@ -132,8 +164,8 @@ for gen in range(1, numGenerations+1):
             sortingList.append(tuple)
 
     if len(sortingList) is 0:
-        print("--ERROR--")
-        print("Check that your maxWeight, maxDispOfAnyTargetNode and maxAvgDisp are not set too low")
+        printOut("--ERROR--")
+        printOut("Check that your maxWeight, maxDispOfAnyTargetNode and maxAvgDisp are not set too low")
         errorFlag = True
         break
 
@@ -167,40 +199,46 @@ for gen in range(1, numGenerations+1):
         endOneGen = time.time()
         minutesPerGen = (endOneGen - startOneGen) / 60
         numFramesAnalyzed = numGenerations * numSeeds * numChildrenPerSeed
-        print("\nYou have elected to analyze", numFramesAnalyzed, "frames")
-        print("across",numGenerations,"generations (i.e.",int(numFramesAnalyzed/numGenerations),"per generation)")
-        print("\nThis will take an estimated", '%.1f' % (minutesPerGen * numGenerations), "minutes to complete")
-    print("\n")
-    print("Generation No.", gen)
-    print("Max Score Per Weight:\t\t", maxScorePerWeight)
-    print("Total Weight:\t\t\t\t", maxFrame.weight)
-    print("Avg Disp. of Target Nodes:\t", averageDisp)
+        printOut("\nYou have elected to analyze %i frames" % numFramesAnalyzed)
+        printOut("across %i generations (i.e. %i per generation)" % (numGenerations, int(numFramesAnalyzed/numGenerations)))
+        printOut("\nThis will take an estimated %.1f minutes to complete" % (minutesPerGen * numGenerations))
+    printOut("\n")
+    printOut("Generation No. %i" % gen)
+    printOut("Max Score Per Weight:\t\t%.3f" % maxScorePerWeight)
+    printOut("Avg Disp. of Target Nodes:\t%.5f" % averageDisp)
+    printOut("Total Weight:\t\t\t%.3f" % maxFrame.weight)
 
 ax1.plot(iterations, maxScoresPerWeight)
 ax2.plot(iterations, averageDisps)
 ax3.plot(iterations, weights)
 maxFrame.plotAni(ax4, "Maximum Frame")
+maxFrame.toTextFile(simFolderPath)
 
 if not errorFlag:
-    print("\n--FINISHED--")
+    printOut("\n--FINISHED--")
 
-    print("\n--STATS--")
+    printOut("\n--STATS--")
     end = time.time()
     minutesTaken = (end - start) / 60
-    print("\nMinutes taken for simulation to complete:", minutesTaken)
-    print("\nTotal Number of Frames Analyzed:", numFramesAnalyzed)
-    print("\nThe best frame's score was", '%.3f' % (maxScorePerWeight-baseFrameScorePerWeight))
-    print("better than the original seed frame")
-    print("\nThe weight of the best frame was")
-    print('%.2f' % (baseFrame.weight-maxFrame.weight), "pounds less than the original seed frame")
-    print("\nThe avg. displacement of all target nodes for the best frame was")
-    print('%.5f' % (baseFrameAvgDisp-averageDisp), "inches less than the original seed frame")
+    printOut("\nMinutes taken for simulation to complete: %.1f" % minutesTaken)
+    printOut("\nTotal Number of Frames Analyzed: %i" % numFramesAnalyzed)
+    printOut("\nThe best frame's score was %.3f" % (maxScorePerWeight-baseFrameScorePerWeight))
+    printOut("better than the original seed frame")
+    printOut("\nThe weight of the best frame was")
+    printOut("%.2f pounds less than the original seed frame" % (baseFrame.weight-maxFrame.weight))
+    printOut("\nThe avg. displacement of all target nodes for the best frame was")
+    printOut("%.5f inches less than the original seed frame" % (baseFrameAvgDisp-averageDisp))
 
     # Plot graphs and frame/displacements
-    plt.show()
+
+    figPath = '%s\\graph.png' % simFolderPath
+    fig.savefig(figPath)
     for loadCase in LoadCases.listLoadCases:
         maxFrame.setLoadCase(loadCase)
+        figPath = '%s\\%s.png' % (simFolderPath, loadCase.name)
         maxFrame.solve(weightMultiplier)
-        maxFrame.plot(finalDisplacementScaling)
+        maxFrame.plot(finalDisplacementScaling, figPath)
+
+consoleOutput.close()
 
 

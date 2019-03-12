@@ -1,3 +1,33 @@
+# Important Sim Parameters
+# ----------------------------
+numGenerations = 2
+numSeeds = 2
+numChildrenPerSeed = 5
+maxNumRandTubes = 3
+
+weightMultiplier = 0.01
+maxDispOfAnyTargetNode = 0.5
+maxAvgDisp = 0.5
+maxWeight = 60
+# ----------------------------
+
+
+# Plotting parameters
+# ----------------------------
+finalDisplacementScaling = 15
+graphUpdatePeriod = 1
+plotCurrentFrame = True
+# ----------------------------
+
+print("--PARAMETERS--")
+print("\nNumber of Generations:", numGenerations)
+print("Number of Surviving Seeds Per Generation:",numSeeds)
+print("Number of Children Per Seed Per Generation:", numChildrenPerSeed)
+print("\nMaximum number of mutated tubes per individual:", maxNumRandTubes)
+print("\nMaximum displacement allowed for any target node:", maxDispOfAnyTargetNode, "inches")
+print("Maximum average displacement allowed for all target nodes:", maxAvgDisp, "inches")
+print("Maximum weight allowed:", maxWeight, "pounds")
+
 from createBaseFrame import *
 import copy
 import matplotlib.pyplot as plt
@@ -7,43 +37,28 @@ from loadCases import *
 def sortingKey(elem):
     return elem[0]
 
-
-# Important Parameters
-numGenerations = 100
-numSeeds = 3
-numChildrenPerSeed = 5
-maxNumRandTubes = 10
-
-maxDispOfAnyTargetNode = 0.26
-maxAvgDisp = 0.25
-maxWeight = 60
-
-graphUpdatePeriod = 1
-plotCurrentFrame = False
-
-
 # Time the simulation
 start = time.time()
 
 # Set up graphs (change size of figure's window using the first line below)
 fig = plt.figure(figsize=(12,9))
-fig.suptitle("Genetic Simulation - Thickness")
-grid = plt.GridSpec(3, 4, hspace=0.3, wspace=0.2)
-ax1 = fig.add_subplot(grid[0, :2], title="Score/Weight vs Generations")
+grid = plt.GridSpec(6, 4, hspace=0.8, wspace=0.2)
+ax1 = fig.add_subplot(grid[0:2, :2], title="Score/Weight vs Generations")
 ax1.set_ylabel('Objective Function Score')
-ax2 = fig.add_subplot(grid[1, :2], title="Avg Displacement vs Generations")
+ax2 = fig.add_subplot(grid[2:4, :2], title="Avg Displacement vs Generations")
 ax2.set_ylabel('Inches')
-ax3 = fig.add_subplot(grid[2, :2], title="Weight vs Generations")
+ax3 = fig.add_subplot(grid[4:6, :2], title="Weight vs Generations")
 ax3.set_ylabel('Pounds')
 if plotCurrentFrame:
-    ax4 = fig.add_subplot(grid[1:, 2:], title="Maximum Frame", projection='3d')
-    ax5 = fig.add_subplot(grid[0, 2:], title="Current Frame", projection='3d')
+    ax4 = fig.add_subplot(grid[3:6, 2:], projection='3d')
+    ax5 = fig.add_subplot(grid[0:3, 2:], projection='3d')
+    ax5.view_init(azim=-135, elev=35)
 else:
     ax4 = fig.add_subplot(grid[0:, 2:], title="Maximum Frame", projection='3d')
+ax4.view_init(azim=-135, elev=35)
 ax1.grid()
 ax2.grid()
 ax3.grid()
-
 
 # Initialize variables
 maxScorePerWeight = 0
@@ -54,10 +69,8 @@ weights = []
 averageDisps = []
 iterations = []
 
-
-
 baseFrame = createBaseFrame()
-baseFrameScorePerWeight, dispList, baseFrameAvgDisp = baseFrame.solveAllLoadCases()
+baseFrameScorePerWeight, dispList, baseFrameAvgDisp = baseFrame.solveAllLoadCases(weightMultiplier)
 print("\nBase Frame Weight:", baseFrame.weight)
 print("Base Frame Score:", baseFrameScorePerWeight)
 print("Base Frame Avg. Disp.:", baseFrameAvgDisp)
@@ -68,8 +81,6 @@ weights.append(baseFrame.weight)
 averageDisps.append(baseFrameAvgDisp)
 iterations.append(0)
 
-
-
 maxFrame = baseFrame
 errorFlag = False
 seeds = []
@@ -79,35 +90,35 @@ for i in range(numSeeds):
 ax1.plot(iterations, maxScoresPerWeight)
 ax2.plot(iterations, averageDisps)
 ax3.plot(iterations, weights)
-maxFrame.plotAni(ax4)
+maxFrame.plotAni(ax4, "Maximum Frame")
+if plotCurrentFrame:
+    maxFrame.plotAni(ax5, "Current Frame")
 fig.suptitle("Starting in 3")
 plt.pause(1)
 fig.suptitle("Starting in 2")
 plt.pause(1)
 fig.suptitle("Starting in 1")
 plt.pause(1)
-fig.suptitle("Genetic Simulation - Thickness")
+fig.suptitle("Genetic Simulation - Thickness Only")
 plt.pause(.001)
 
 print("\n--START--")
-# Run the simulation with multithreading
 for gen in range(1, numGenerations+1):
     # Generate generation individuals
     if gen is 1:
-        startOneFrame = time.time()
+        startOneGen = time.time()
     individuals = []
     for seed in seeds:
         theSameInd = copy.deepcopy(seed)
         individuals.append(theSameInd)
         for i in range(1, numChildrenPerSeed):
             individual = copy.deepcopy(seed)
-            numRandTubes = random.randint(1,maxNumRandTubes+1)
+            numRandTubes = random.randint(1,maxNumRandTubes)
             for j in range(numRandTubes):
                 individual.randomizeThicknessOfRandomTube()
             individuals.append(individual)
             if plotCurrentFrame:
-                ax5.clear()
-                individual.plotAni(ax5)
+                individual.plotAni(ax5, "Current Frame")
                 plt.pause(0.000000000000001)
 
     # Solve generation individuals
@@ -115,7 +126,7 @@ for gen in range(1, numGenerations+1):
 
     for i in range(len(individuals)):
         individual = individuals.__getitem__(i)
-        scorePerWeight, dispList, avgDisp = individual.solveAllLoadCases()
+        scorePerWeight, dispList, avgDisp = individual.solveAllLoadCases(weightMultiplier)
         if (individual.weight < maxWeight and maxDispOfAnyTargetNode > max(dispList) and maxAvgDisp > avgDisp):
             tuple = (scorePerWeight, avgDisp, individual)
             sortingList.append(tuple)
@@ -140,21 +151,21 @@ for gen in range(1, numGenerations+1):
         averageDisp = bestIndAvgDisp
         maxFrame = bestIndFrame
 
-    if gen % graphUpdatePeriod is 0:
-        ax1.plot(iterations, maxScoresPerWeight)
-        ax2.plot(iterations, averageDisps)
-        ax3.plot(iterations, weights)
-        ax4.clear()
-        maxFrame.plotAni(ax4)
-        plt.pause(0.001)
-
     maxScoresPerWeight.append(maxScorePerWeight)
     averageDisps.append(averageDisp)
     iterations.append(gen)
     weights.append(maxFrame.weight)
+
+    if gen % graphUpdatePeriod is 0:
+        ax1.plot(iterations, maxScoresPerWeight)
+        ax2.plot(iterations, averageDisps)
+        ax3.plot(iterations, weights)
+        maxFrame.plotAni(ax4, "Maximum Frame")
+        plt.pause(0.001)
+
     if gen is 1:
-        endOneFrame = time.time()
-        minutesPerGen = (endOneFrame - startOneFrame) / 60
+        endOneGen = time.time()
+        minutesPerGen = (endOneGen - startOneGen) / 60
         numFramesAnalyzed = numGenerations * numSeeds * numChildrenPerSeed
         print("\nYou have elected to analyze", numFramesAnalyzed, "frames")
         print("across",numGenerations,"generations (i.e.",int(numFramesAnalyzed/numGenerations),"per generation)")
@@ -168,7 +179,7 @@ for gen in range(1, numGenerations+1):
 ax1.plot(iterations, maxScoresPerWeight)
 ax2.plot(iterations, averageDisps)
 ax3.plot(iterations, weights)
-maxFrame.plotAni(ax4)
+maxFrame.plotAni(ax4, "Maximum Frame")
 
 if not errorFlag:
     print("\n--FINISHED--")
@@ -189,7 +200,7 @@ if not errorFlag:
     plt.show()
     for loadCase in LoadCases.listLoadCases:
         maxFrame.setLoadCase(loadCase)
-        maxFrame.solve()
-        maxFrame.plot(50)
+        maxFrame.solve(weightMultiplier)
+        maxFrame.plot(finalDisplacementScaling)
 
 

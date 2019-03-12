@@ -22,23 +22,27 @@ class Frame:
     def getTorStiffness(self):
         return 0
 
-    def solveAllLoadCases(self):
+    def solveAllLoadCases(self, weightMultiplier):
         scorePerWeight = 0
-        avgDisp = 0
+        avgDisps = []
+        allTargetNodeDisps = []
         for loadCase in LoadCases.listLoadCases:
             self.setLoadCase(loadCase)
-            scorePerWeightToAdd, dispList, avgDisplacement = self.solve()
+            scorePerWeightToAdd, dispList, avgDisplacement = self.solve(weightMultiplier)
             scorePerWeight += scorePerWeightToAdd
-            avgDisp += avgDisplacement
-        return scorePerWeight, dispList, avgDisp
+            avgDisps.append(avgDisplacement)
+            for disp in dispList:
+                allTargetNodeDisps.append(disp)
+        avgDisp = sum(avgDisps)/len(avgDisps)
+        return scorePerWeight, allTargetNodeDisps, avgDisp
 
-    def solve(self):
+    def solve(self, weightMultiplier):
         numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be = generateMatrices(self, False)
         internalForces, displacements, reactions = Solver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be)
         self.internalForces = internalForces
         self.displacements = displacements
         self.reactions = reactions
-        scorePerWeight, dispList, maxDisp = ObjectiveFunction(self)
+        scorePerWeight, dispList, maxDisp = ObjectiveFunction(self, self.loadCase, weightMultiplier)
         return scorePerWeight, dispList, maxDisp
 
     def setLoadCase(self, loadCase):
@@ -195,6 +199,8 @@ class Frame:
             symName = name + "#m"
             symNode = Node(self, symName, x, -y, z, isSymmetric, isRequired, maxXPosDev, maxXNegDev, maxYNegDev, maxYPosDev, maxZPosDev, maxZNegDev, xGroup)
             self.nodes.append(symNode)
+            if symNode.geometryOptPossible:
+                self.geometryOptNodes.append(symNode)
         if node.geometryOptPossible:
             self.geometryOptNodes.append(node)
 
@@ -205,6 +211,8 @@ class Frame:
             for tube in symNode.tubes:
                 self.tubes.remove(tube)
             self.nodes.remove(symNode)
+            if symNode.geometryOptPossible:
+                self.geometryOptNodes.remove(symNode)
         if node.geometryOptPossible:
             self.geometryOptNodes.remove(node)
         for tube in node.tubes:
@@ -302,11 +310,41 @@ class Frame:
                 print("#", index, "Name:", node.name, "with coordinates:", node.coordsToString())
                 index += 1
 
-    def plot(self, displacedScaling):
-        plotFrame(self, displacedScaling)
+    def plot(self, displacedScaling, figPath=None):
+        plotFrame(self, displacedScaling, figPath)
 
-    def plotAni(self, axes):
-        plotFrameAni(self, axes)
+    def plotAni(self, axes, title):
+        plotFrameAni(self, axes, title)
 
-
-
+    def toTextFile(self, path):
+        createFramePath = "%s\\createMaxFrame.txt" % path
+        createFrameFile = open(createFramePath, "w")
+        # createFrameFile.write("from tubeSizes import *\n")
+        # createFrameFile.write("from frame import *\n")
+        # createFrameFile.write("def createFrame():\n")
+        for node in self.nodes:
+            if node.geometryOptPossible:
+                if node.hasXGroup:
+                    createFrameFile.write("\tframe.addNode('%s',%f, %f, %f, %r, %r, %f, %f, %f, %f, %f, %f, '%s')\n" %
+                                          (node.name, node.x, node.y, node.z, node.isSymmetric, node.isRequired,
+                                           node.maxXPosDev, node.maxXNegDev, node.maxYPosDev, node.maxYNegDev,
+                                           node.maxZPosDev, node.maxZNegDev, node.xGroup))
+                else:
+                    createFrameFile.write("\tframe.addNode('%s',%f, %f, %f, %r, %r, %f, %f, %f, %f, %f, %f)\n" %
+                                          (node.name, node.x, node.y, node.z, node.isSymmetric, node.isRequired,
+                                           node.maxXPosDev, node.maxXNegDev, node.maxYPosDev, node.maxYNegDev,
+                                           node.maxZPosDev, node.maxZNegDev))
+            else:
+                createFrameFile.write("\tframe.addNode('%s',%f, %f, %f, %r, %r)\n" %
+                                      (node.name, node.x, node.y, node.z, node.isSymmetric, node.isRequired))
+        for tube in self.tubes:
+            if tube.group is not None:
+                createFrameFile.write("\tframe.addTube(%s, %s, '%s', '%s', %r, %r, '%s')\n" %
+                                      (tube.size.string, tube.minSize.string, tube.nodeFrom.name, tube.nodeTo.name,
+                                       tube.isSymmetric, tube.isRequired, tube.group))
+            else:
+                createFrameFile.write("\tframe.addTube(%s, %s, '%s', '%s', %r, %r)\n" %
+                                      (tube.size.string, tube.minSize.string, tube.nodeFrom.name, tube.nodeTo.name,
+                                       tube.isSymmetric, tube.isRequired))
+        #createFrameFile.write("\treturn frame\n")
+        createFrameFile.close()

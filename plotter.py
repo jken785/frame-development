@@ -4,17 +4,21 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from tubeSizes import *
 
-def plotFrameAni(frame, axes):
+def plotFrameAni(frame, axes, title):
+    axes.clear()
     axes.set_aspect('equal')
+    axes.set_title(title)
     setEqualScaling(frame, axes)
 
     for tube in frame.tubes:
         plot(tube, axes)
 
-def plotFrame(frame, displacedScaling):
-    fig = plt.figure()
+def plotFrame(frame, displacedScaling, figPath=None):
+    fig = plt.figure(figsize=(12,9))
+    fig.suptitle(frame.loadCase.name)
     axes = fig.gca(projection='3d')
     axes.set_aspect('equal')
+    axes.view_init(azim=-135, elev=35)
     setEqualScaling(frame, axes)
 
     for tube in frame.tubes:
@@ -22,7 +26,10 @@ def plotFrame(frame, displacedScaling):
     if frame.displacements is not None:
         for tube in frame.tubes:
             plotDisplacedTube(frame, tube, axes, displacedScaling)
-    plt.show()
+    if figPath is not None:
+        fig.savefig(figPath)
+    else:
+        plt.show()
 
 
 def plot(tube, axes):

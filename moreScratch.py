@@ -1,5 +1,5 @@
 from createBaseFrame import *
+import random
 
-frame = createBaseFrame()
-frame.toString('all')
-frame.plot(50)
+for i in range(100):
+    print(random.randint(1,3))
