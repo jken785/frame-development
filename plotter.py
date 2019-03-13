@@ -28,6 +28,7 @@ def plotFrame(frame, displacedScaling, figPath=None):
             plotDisplacedTube(frame, tube, axes, displacedScaling)
     if figPath is not None:
         fig.savefig(figPath)
+        plt.close(fig)
     else:
         plt.show()
 

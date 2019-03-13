@@ -18,6 +18,8 @@ class Frame:
         self.internalForces = None
         self.displacements = None
         self.reactions = None
+        # ***Should have a list of the required nodes, which should be the only nodes
+        # accessed by loadCases/objectiveFunction b/c it wont be possible to remove them
 
     def getTorStiffness(self):
         return 0
@@ -191,6 +193,25 @@ class Frame:
 
             self.changeNodeLocation(index, newX, newY, newZ)
 
+    def splitTubeRandomly(self):
+        # Should split a tube at a random point along its length and add a node there,
+        # then it should reconstruct that tube, but with two elements
+        # Should potentially allow for more variation in geometry optimization
+        return "TODO"
+
+    def removeTubeRandomly(self):
+        # Note, you need to check the randint() docs to make sure the range is right
+        numTubes = len(self.tubes)
+        randIndex = random.randint(0, numTubes)
+        self.removeTube(randIndex)
+        return "TODO"
+
+    def removeNodeRandomly(self):
+        # Should remove a random node and its tubes
+        return "TODO"
+
+    def addANodeAndTubesRandomly(self):
+        return "TODO"
 
     def addNode(self, name, x, y, z, isSymmetric, isRequired, maxXPosDev=None, maxXNegDev=None, maxYPosDev=None, maxYNegDev=None, maxZPosDev=None, maxZNegDev=None,xGroup=None):
         node = Node(self, name, x, y, z, isSymmetric, isRequired, maxXPosDev, maxXNegDev, maxYPosDev, maxYNegDev, maxZPosDev, maxZNegDev, xGroup)

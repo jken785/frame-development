@@ -1,14 +1,14 @@
 
-for i in range(0,10):
+if __name__ == "__main__":
     # Important Sim Parameters
     # ----------------------------
-    numGenerations = 50
+    numGenerations = 25
     numSeeds = 2
-    numChildrenPerSeed = 75
-    maxNumRandNodes = 1
-    maxNumRandTubes = 2
+    numChildrenPerSeed = 5
+    maxNumRandNodes = 2
+    maxNumRandTubes = 5
 
-    weightMultiplier = .0025*i
+    weightMultiplier = 0.0075
     maxDispOfAnyTargetNode = 0.31
     maxAvgDisp = 0.271
     maxWeight = 59.51
@@ -31,6 +31,7 @@ for i in range(0,10):
     from loadCases import *
     import os
     import datetime
+    import multiprocessing as mp
 
     currentDateTime = datetime.datetime.now()
     workingDir = os.getcwd()
@@ -73,7 +74,7 @@ for i in range(0,10):
     start = time.time()
 
     # Set up graphs (change size of figure's window using the first line below)
-    fig = plt.figure(figsize=(10,7))
+    fig = plt.figure(figsize=(12,9))
     grid = plt.GridSpec(6, 4, hspace=0.8, wspace=0.2)
     ax1 = fig.add_subplot(grid[0:2, :2], title="Score/Weight vs Generations")
     ax1.set_ylabel('Objective Function Score')
@@ -119,7 +120,7 @@ for i in range(0,10):
     errorFlag = False
     seeds = []
     for i in range(numSeeds):
-        seeds.append(maxFrame)
+        seeds.append(copy.deepcopy(maxFrame))
 
     ax1.plot(iterations, maxScoresPerWeight)
     ax2.plot(iterations, averageDisps)
@@ -127,40 +128,89 @@ for i in range(0,10):
     maxFrame.plotAni(ax4, "Maximum Frame")
     if plotCurrentFrame:
         maxFrame.plotAni(ax5, "Current Frame")
-    fig.suptitle("Starting in 3")
-    plt.pause(1)
-    fig.suptitle("Starting in 2")
-    plt.pause(1)
-    fig.suptitle("Starting in 1")
-    plt.pause(1)
-    fig.suptitle("Genetic Simulation - Geometry and Thickness")
-    plt.pause(.001)
+    # fig.suptitle("Starting in 3")
+    # plt.pause(1)
+    # fig.suptitle("Starting in 2")
+    # plt.pause(1)
+    # fig.suptitle("Starting in 1")
+    # plt.pause(1)
+    # fig.suptitle("Genetic Simulation - Geometry and Thickness")
+    # plt.pause(.001)
 
     printOut("\n--START--")
+
+def generateIndividuals(q, seeds):
+    global maxWeight
+    global maxDispOfAnyTargetNode
+    global maxAvgDisp
+    global weightMultiplier
+    global numGenerations
+    global numSeeds
+    global numChildrenPerSeed
+    individuals = []
+    for seed in seeds:
+        theSameInd = copy.deepcopy(seed)
+        individuals.append(theSameInd)
+        for i in range(1, numChildrenPerSeed):
+            individual = copy.deepcopy(seed)
+            randomizeThicknessNotGeometry = random.choice((True, False))
+            if randomizeThicknessNotGeometry:
+                numRandTubes = random.randint(1, maxNumRandTubes)
+                for j in range(numRandTubes):
+                    individual.randomizeThicknessOfRandomTube()
+            else:
+                numRandNodes = random.randint(1, maxNumRandNodes)
+                for j in range(numRandNodes):
+                    individual.randomizeLocationOfRandomNode()
+            individuals.append(individual)
+            # if plotCurrentFrame:
+            #     individual.plotAni(ax5, "Current Frame")
+            #     plt.pause(0.000000000000001)
+
+
+    sortingList = []
+    for individual in individuals:
+        scorePerWeight, dispList, avgDisp = individual.solveAllLoadCases(weightMultiplier)
+        if (individual.weight < maxWeight and maxDispOfAnyTargetNode > max(dispList) and maxAvgDisp > avgDisp):
+            tuple = (scorePerWeight, avgDisp, individual)
+            sortingList.append(tuple)
+
+    q.put(0)
+
+def multithreadKernel(seeds):
+    processes = []
+    rets = []
+    if __name__ == "__main__":
+        seedsLeft = seeds[:int(numSeeds / 2)]
+        seedsRight = seeds[int(numSeeds / 2):]
+        q = mp.Queue()
+        left = mp.Process(target=generateIndividuals, args=(q, seedsLeft))
+        right = mp.Process(target=generateIndividuals, args=(q, seedsRight))
+        processes.append(left)
+        processes.append(right)
+        for p in processes:
+            p.start()
+        for p in processes:
+            returnInds = q.get()  # will block
+            rets.append(returnInds)
+        for p in processes:
+            p.join()
+        return rets
+
 
     for gen in range(1, numGenerations+1):
         # Generate generation individuals
         if gen is 1:
             startOneGen = time.time()
+
+
         individuals = []
-        for seed in seeds:
-            theSameInd = copy.deepcopy(seed)
-            individuals.append(theSameInd)
-            for i in range(1, numChildrenPerSeed):
-                individual = copy.deepcopy(seed)
-                randomizeThicknessNotGeometry = random.choice((True, False))
-                if randomizeThicknessNotGeometry:
-                    numRandTubes = random.randint(1, maxNumRandTubes)
-                    for j in range(numRandTubes):
-                        individual.randomizeThicknessOfRandomTube()
-                else:
-                    numRandNodes = random.randint(1, maxNumRandNodes)
-                    for j in range(numRandNodes):
-                        individual.randomizeLocationOfRandomNode()
-                individuals.append(individual)
-                if plotCurrentFrame:
-                    individual.plotAni(ax5, "Current Frame")
-                    plt.pause(0.000000000000001)
+        multiReturn = multithreadKernel(seeds)
+
+        multiReturn = np.array(multiReturn)
+        multiReturn.flatten()
+
+
 
         # Solve generation individuals
         sortingList = []
@@ -216,6 +266,7 @@ for i in range(0,10):
         timeRemaining = (minutesPerGen*numGenerations) - (minutesPerGen*(gen-1))
         print("\n~%.1f minutes remaining..." % timeRemaining)
 
+
     ax1.plot(iterations, maxScoresPerWeight)
     ax2.plot(iterations, averageDisps)
     ax3.plot(iterations, weights)
@@ -247,7 +298,6 @@ for i in range(0,10):
             figPath = '%s\\%s.png' % (simFolderPath, loadCase.name)
             maxFrame.solve(weightMultiplier)
             maxFrame.plot(finalDisplacementScaling, figPath)
-        plt.close(fig)
 
     consoleOutput.close()
 
