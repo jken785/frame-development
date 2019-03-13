@@ -118,7 +118,7 @@ class Frame:
     # will not allow changes to square tubes
     def randomizeThickness(self, index):
         tube = self.tubes.__getitem__(index)
-        if tube.isRound:
+        if tube.isRound and tube.size is not RD_1xSLD:
             sizeIndex = allRoundSizes.index(tube.minSize)
             availableSizes = allRoundSizes[sizeIndex:len(allRoundSizes)]
             thickness = random.choice(availableSizes)

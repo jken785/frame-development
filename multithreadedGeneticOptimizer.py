@@ -1,38 +1,71 @@
+# Important Sim Parameters
+# ----------------------------
+numGenerations = 100
+numSeeds = 2                # Will run faster if even
+numChildrenPerSeed = 250
+maxNumRandNodes = 1
+maxNumRandTubes = 3
+
+weightMultiplier = 0.009
+maxDispOfAnyTargetNode = 0.35
+maxAvgDisp = 0.3
+maxWeight = 70
+
+numProcesses = 2            # MUST be even, and LESS THAN numSeeds
+
+useOriginalBaseFrame = True
+# ----------------------------
+
+
+
+# Plotting parameters
+# ----------------------------
+finalDisplacementScaling = 15
+graphUpdatePeriod = 1
+# ----------------------------
+
+
+
+
+from createFrame import *
+from createBaseFrame import *
+import copy
+import matplotlib.pyplot as plt
+import time
+from loadCases import *
+import os
+import datetime
+import multiprocessing as mp
+
+def generateAndSolveIndividuals(queue, seeds):
+    individuals = []
+    for seed in seeds:
+        theSameInd = copy.deepcopy(seed)
+        individuals.append(theSameInd)
+        for i in range(1, numChildrenPerSeed):
+            individual = copy.deepcopy(seed)
+            randomizeThicknessNotGeometry = random.choice((True, False))
+            if randomizeThicknessNotGeometry:
+                numRandTubes = random.randint(1, maxNumRandTubes)
+                for j in range(numRandTubes):
+                    individual.randomizeThicknessOfRandomTube()
+            else:
+                numRandNodes = random.randint(1, maxNumRandNodes)
+                for j in range(numRandNodes):
+                    individual.randomizeLocationOfRandomNode()
+            individuals.append(individual)
+
+    threadSolvedFrames = []
+    for individual in individuals:
+        scorePerWeight, dispList, avgDisp = individual.solveAllLoadCases(weightMultiplier)
+        if (individual.weight < maxWeight and maxDispOfAnyTargetNode > max(dispList) and maxAvgDisp > avgDisp):
+            tuple = (scorePerWeight, avgDisp, individual)
+            threadSolvedFrames.append(tuple)
+
+    queue.put(threadSolvedFrames)
+
 
 if __name__ == "__main__":
-    # Important Sim Parameters
-    # ----------------------------
-    numGenerations = 25
-    numSeeds = 2
-    numChildrenPerSeed = 5
-    maxNumRandNodes = 2
-    maxNumRandTubes = 5
-
-    weightMultiplier = 0.0075
-    maxDispOfAnyTargetNode = 0.31
-    maxAvgDisp = 0.271
-    maxWeight = 59.51
-
-    useOriginalBaseFrame = True
-    # ----------------------------
-
-    # Plotting parameters
-    # ----------------------------
-    finalDisplacementScaling = 15
-    graphUpdatePeriod = 1
-    plotCurrentFrame = False
-    # ----------------------------
-
-    from createFrame import *
-    from createBaseFrame import *
-    import copy
-    import matplotlib.pyplot as plt
-    import time
-    from loadCases import *
-    import os
-    import datetime
-    import multiprocessing as mp
-
     currentDateTime = datetime.datetime.now()
     workingDir = os.getcwd()
     path = "%s\\results" % workingDir
@@ -74,7 +107,7 @@ if __name__ == "__main__":
     start = time.time()
 
     # Set up graphs (change size of figure's window using the first line below)
-    fig = plt.figure(figsize=(12,9))
+    fig = plt.figure(figsize=(10,7))
     grid = plt.GridSpec(6, 4, hspace=0.8, wspace=0.2)
     ax1 = fig.add_subplot(grid[0:2, :2], title="Score/Weight vs Generations")
     ax1.set_ylabel('Objective Function Score')
@@ -82,12 +115,7 @@ if __name__ == "__main__":
     ax2.set_ylabel('Inches')
     ax3 = fig.add_subplot(grid[4:6, :2], title="Weight vs Generations")
     ax3.set_ylabel('Pounds')
-    if plotCurrentFrame:
-        ax4 = fig.add_subplot(grid[3:6, 2:], projection='3d')
-        ax5 = fig.add_subplot(grid[0:3, 2:], projection='3d')
-        ax5.view_init(azim=-135, elev=35)
-    else:
-        ax4 = fig.add_subplot(grid[0:, 2:], title="Maximum Frame", projection='3d')
+    ax4 = fig.add_subplot(grid[0:, 2:], title="Maximum Frame", projection='3d')
     ax4.view_init(azim=-135, elev=35)
     ax1.grid()
     ax2.grid()
@@ -126,101 +154,50 @@ if __name__ == "__main__":
     ax2.plot(iterations, averageDisps)
     ax3.plot(iterations, weights)
     maxFrame.plotAni(ax4, "Maximum Frame")
-    if plotCurrentFrame:
-        maxFrame.plotAni(ax5, "Current Frame")
-    # fig.suptitle("Starting in 3")
-    # plt.pause(1)
-    # fig.suptitle("Starting in 2")
-    # plt.pause(1)
-    # fig.suptitle("Starting in 1")
-    # plt.pause(1)
-    # fig.suptitle("Genetic Simulation - Geometry and Thickness")
-    # plt.pause(.001)
+    fig.suptitle("Starting in 3")
+    plt.pause(1)
+    fig.suptitle("Starting in 2")
+    plt.pause(1)
+    fig.suptitle("Starting in 1")
+    plt.pause(1)
+    fig.suptitle("Genetic Simulation - Geometry and Thickness")
+    plt.pause(.001)
 
     printOut("\n--START--")
-
-def generateIndividuals(q, seeds):
-    global maxWeight
-    global maxDispOfAnyTargetNode
-    global maxAvgDisp
-    global weightMultiplier
-    global numGenerations
-    global numSeeds
-    global numChildrenPerSeed
-    individuals = []
-    for seed in seeds:
-        theSameInd = copy.deepcopy(seed)
-        individuals.append(theSameInd)
-        for i in range(1, numChildrenPerSeed):
-            individual = copy.deepcopy(seed)
-            randomizeThicknessNotGeometry = random.choice((True, False))
-            if randomizeThicknessNotGeometry:
-                numRandTubes = random.randint(1, maxNumRandTubes)
-                for j in range(numRandTubes):
-                    individual.randomizeThicknessOfRandomTube()
-            else:
-                numRandNodes = random.randint(1, maxNumRandNodes)
-                for j in range(numRandNodes):
-                    individual.randomizeLocationOfRandomNode()
-            individuals.append(individual)
-            # if plotCurrentFrame:
-            #     individual.plotAni(ax5, "Current Frame")
-            #     plt.pause(0.000000000000001)
-
-
-    sortingList = []
-    for individual in individuals:
-        scorePerWeight, dispList, avgDisp = individual.solveAllLoadCases(weightMultiplier)
-        if (individual.weight < maxWeight and maxDispOfAnyTargetNode > max(dispList) and maxAvgDisp > avgDisp):
-            tuple = (scorePerWeight, avgDisp, individual)
-            sortingList.append(tuple)
-
-    q.put(0)
-
-def multithreadKernel(seeds):
-    processes = []
-    rets = []
-    if __name__ == "__main__":
-        seedsLeft = seeds[:int(numSeeds / 2)]
-        seedsRight = seeds[int(numSeeds / 2):]
-        q = mp.Queue()
-        left = mp.Process(target=generateIndividuals, args=(q, seedsLeft))
-        right = mp.Process(target=generateIndividuals, args=(q, seedsRight))
-        processes.append(left)
-        processes.append(right)
-        for p in processes:
-            p.start()
-        for p in processes:
-            returnInds = q.get()  # will block
-            rets.append(returnInds)
-        for p in processes:
-            p.join()
-        return rets
-
 
     for gen in range(1, numGenerations+1):
         # Generate generation individuals
         if gen is 1:
             startOneGen = time.time()
 
-
-        individuals = []
-        multiReturn = multithreadKernel(seeds)
-
-        multiReturn = np.array(multiReturn)
-        multiReturn.flatten()
-
-
-
-        # Solve generation individuals
+        # BEGIN MULTIPROCESSING CODE
+        allReturnedFrames = []
+        processes = []
         sortingList = []
+        q = mp.Queue()
+        rangeDivisor = int(numSeeds/numProcesses)
+        oddNumSeeds = False
+        if numSeeds % numProcesses != 0:
+            oddNumSeeds = True
+        for i in range(numProcesses):
+            if oddNumSeeds and i == numProcesses-1:
+                processSeeds = seeds[i * rangeDivisor:]
+            else:
+                processSeeds = seeds[i*rangeDivisor:(i+1)*rangeDivisor]
+            p = mp.Process(target=generateAndSolveIndividuals, args=(q, processSeeds))
+            processes.append(p)
+        for p in processes:
+            p.start()
+        for p in processes:
+            threadReturnedFrames = q.get()
+            allReturnedFrames.append(threadReturnedFrames)
+        for p in processes:
+            p.join()
 
-        for i in range(len(individuals)):
-            individual = individuals.__getitem__(i)
-            scorePerWeight, dispList, avgDisp = individual.solveAllLoadCases(weightMultiplier)
-            if (individual.weight < maxWeight and maxDispOfAnyTargetNode > max(dispList) and maxAvgDisp > avgDisp):
-                tuple = (scorePerWeight, avgDisp, individual)
+        for list in allReturnedFrames:
+            for tuple in list:
                 sortingList.append(tuple)
+        # END MULTIPROCESSING CODE
 
         if len(sortingList) is 0:
             printOut("--ERROR--")
@@ -266,7 +243,6 @@ def multithreadKernel(seeds):
         timeRemaining = (minutesPerGen*numGenerations) - (minutesPerGen*(gen-1))
         print("\n~%.1f minutes remaining..." % timeRemaining)
 
-
     ax1.plot(iterations, maxScoresPerWeight)
     ax2.plot(iterations, averageDisps)
     ax3.plot(iterations, weights)
@@ -298,7 +274,6 @@ def multithreadKernel(seeds):
             figPath = '%s\\%s.png' % (simFolderPath, loadCase.name)
             maxFrame.solve(weightMultiplier)
             maxFrame.plot(finalDisplacementScaling, figPath)
+        plt.close(fig)
 
     consoleOutput.close()
-
-
