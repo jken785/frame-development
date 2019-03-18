@@ -1,19 +1,21 @@
 # Important Sim Parameters
 # ----------------------------
-numGenerations = 100
-numSeeds = 2                # Will run faster if even
-numChildrenPerSeed = 200
+numGenerations = 10
+numSeeds = 2  # Will run faster if even
+numChildrenPerSeed = 20
 maxNumRandNodes = 1
 maxNumRandTubes = 3
+maxNumTubes = 160
+minNumTubes = 139
 
-weightMultiplier = 0
-maxDispOfAnyTargetNode = 0.183
-maxAvgDisp = 0.173
-maxWeight = 55
+weightMultiplier = 0.01
+maxDispOfAnyTargetNode = 0.5
+maxAvgDisp = 0.5
+maxWeight = 70
 
-numProcesses = 2            # MUST be even, and <= numSeeds
+numProcesses = 2  # MUST be even, and <= numSeeds
 
-useOriginalBaseFrame = False
+useOriginalBaseFrame = True
 # ----------------------------
 
 
@@ -22,7 +24,6 @@ useOriginalBaseFrame = False
 finalDisplacementScaling = 15
 graphUpdatePeriod = 1
 # ----------------------------
-
 
 
 from createFrame import *
@@ -35,6 +36,7 @@ import os
 import datetime
 import multiprocessing as mp
 
+
 def generateAndSolveIndividuals(queue, seeds):
     individuals = []
     for seed in seeds:
@@ -42,15 +44,31 @@ def generateAndSolveIndividuals(queue, seeds):
         individuals.append(theSameInd)
         for i in range(1, numChildrenPerSeed):
             individual = copy.deepcopy(seed)
-            randomizeThicknessNotGeometry = random.choice((True, False))
-            if randomizeThicknessNotGeometry:
+            case = random.randint(1,3)
+            if case is 1:
                 numRandTubes = random.randint(1, maxNumRandTubes)
                 for j in range(numRandTubes):
                     individual.randomizeThicknessOfRandomTube()
-            else:
+            elif case is 2:
                 numRandNodes = random.randint(1, maxNumRandNodes)
                 for j in range(numRandNodes):
                     individual.randomizeLocationOfRandomNode()
+            else:
+                addTubeIfTrue = random.choice((True, False))
+                if len(individual.tubes) < maxNumTubes and addTubeIfTrue:
+                    individual.addTubeRandomly()
+                elif len(individual.tubes) > minNumTubes and not addTubeIfTrue:
+                    individual.removeTubeRandomly()
+                else:
+                    case = random.randint(1, 2)
+                    if case is 1:
+                        numRandTubes = random.randint(1, maxNumRandTubes)
+                        for j in range(numRandTubes):
+                            individual.randomizeThicknessOfRandomTube()
+                    else:
+                        numRandNodes = random.randint(1, maxNumRandNodes)
+                        for j in range(numRandNodes):
+                            individual.randomizeLocationOfRandomNode()
             individuals.append(individual)
 
     threadSolvedFrames = []
@@ -75,10 +93,12 @@ if __name__ == "__main__":
     consOutPath = "%s\\consoleOuput.txt" % simFolderPath
     consoleOutput = open(consOutPath, "w")
 
+
     def printOut(line):
         print(line)
         consoleOutput.write(line)
         consoleOutput.write("\n")
+
 
     printOut("--PARAMETERS--")
     printOut("\nNumber of Generations: %i" % numGenerations)
@@ -86,7 +106,8 @@ if __name__ == "__main__":
     printOut("Number of Children Per Seed Per Generation: %i" % numChildrenPerSeed)
     numFramesAnalyzed = numGenerations * numSeeds * numChildrenPerSeed
     printOut("\nYou have elected to analyze %i frames" % numFramesAnalyzed)
-    printOut("across %i generations (i.e. %i per generation)" % (numGenerations, int(numFramesAnalyzed/numGenerations)))
+    printOut(
+        "across %i generations (i.e. %i per generation)" % (numGenerations, int(numFramesAnalyzed / numGenerations)))
     printOut("\nMaximum number of mutated tubes per individual: %i" % maxNumRandTubes)
     printOut("Maximum number of mutated nodes per individual: %i" % maxNumRandNodes)
     printOut("\nMaximum displacement allowed for any target node: %.5f inches" % maxDispOfAnyTargetNode)
@@ -98,14 +119,16 @@ if __name__ == "__main__":
     else:
         printOut("\nUsing createFrame() to construct the initial seeds")
 
+
     def sortingKey(elem):
         return elem[0]
+
 
     # Time the simulation
     start = time.time()
 
     # Set up graphs (change size of figure's window using the first line below)
-    fig = plt.figure(figsize=(10,7))
+    fig = plt.figure(figsize=(10, 7))
     grid = plt.GridSpec(6, 4, hspace=0.8, wspace=0.2)
     ax1 = fig.add_subplot(grid[0:2, :2], title="Score/Weight vs Generations")
     ax1.set_ylabel('Objective Function Score')
@@ -136,6 +159,7 @@ if __name__ == "__main__":
     printOut("Base Frame Score: %.3f" % baseFrameScorePerWeight)
     printOut("Base Frame Avg. Disp.: %.5f" % baseFrameAvgDisp)
     printOut("Base Frame Max Disp of A Target Node: %.5f" % max(dispList))
+    printOut("Num Tubes in Base Frame: %i" % len(baseFrame.tubes))
 
     maxScoresPerWeight.append(baseFrameScorePerWeight)
     weights.append(baseFrame.weight)
@@ -163,7 +187,7 @@ if __name__ == "__main__":
 
     printOut("\n--START--")
 
-    for gen in range(1, numGenerations+1):
+    for gen in range(1, numGenerations + 1):
         # Generate generation individuals
         if gen is 1:
             startOneGen = time.time()
@@ -173,15 +197,15 @@ if __name__ == "__main__":
         processes = []
         sortingList = []
         q = mp.Queue()
-        rangeDivisor = int(numSeeds/numProcesses)
+        rangeDivisor = int(numSeeds / numProcesses)
         oddNumSeeds = False
         if numSeeds % numProcesses != 0:
             oddNumSeeds = True
         for i in range(numProcesses):
-            if oddNumSeeds and i == numProcesses-1:
+            if oddNumSeeds and i == numProcesses - 1:
                 processSeeds = seeds[i * rangeDivisor:]
             else:
-                processSeeds = seeds[i*rangeDivisor:(i+1)*rangeDivisor]
+                processSeeds = seeds[i * rangeDivisor:(i + 1) * rangeDivisor]
             p = mp.Process(target=generateAndSolveIndividuals, args=(q, processSeeds))
             processes.append(p)
         for p in processes:
@@ -203,7 +227,7 @@ if __name__ == "__main__":
             errorFlag = True
             break
 
-        sortingList.sort(key = sortingKey, reverse=True)
+        sortingList.sort(key=sortingKey, reverse=True)
         seeds.clear()
         for i in range(numSeeds):
             seeds.append(sortingList.__getitem__(i)[2])
@@ -232,13 +256,14 @@ if __name__ == "__main__":
         if gen is 1:
             endOneGen = time.time()
             minutesPerGen = (endOneGen - startOneGen) / 60
-            print("\nSimulation will take an estimated %.1f minutes to complete" % (minutesPerGen * (numGenerations+1)))
+            print(
+                "\nSimulation will take an estimated %.1f minutes to complete" % (minutesPerGen * (numGenerations + 1)))
         printOut("\n")
         printOut("Generation No. %i" % gen)
         printOut("Max Score Per Weight:\t\t%.3f" % maxScorePerWeight)
         printOut("Avg Disp. of Target Nodes:\t%.5f" % averageDisp)
         printOut("Total Weight:\t\t\t%.3f" % maxFrame.weight)
-        timeRemaining = (minutesPerGen*numGenerations) - (minutesPerGen*(gen-1))
+        timeRemaining = (minutesPerGen * numGenerations) - (minutesPerGen * (gen - 1))
         print("\n~%.1f minutes remaining..." % timeRemaining)
 
     ax1.plot(iterations, maxScoresPerWeight)
@@ -254,14 +279,14 @@ if __name__ == "__main__":
         end = time.time()
         minutesTaken = (end - start) / 60
         printOut("\nMinutes taken for simulation to complete: %.1f" % minutesTaken)
-        printOut("That's %.2f frames per second!" % (numFramesAnalyzed/(minutesTaken*60)))
+        printOut("That's %.2f frames per second!" % (numFramesAnalyzed / (minutesTaken * 60)))
         printOut("\nTotal Number of Frames Analyzed: %i" % numFramesAnalyzed)
-        printOut("\nThe best frame's score was %.3f" % (maxScorePerWeight-baseFrameScorePerWeight))
+        printOut("\nThe best frame's score was %.3f" % (maxScorePerWeight - baseFrameScorePerWeight))
         printOut("better than the original seed frame")
         printOut("\nThe weight of the best frame was")
-        printOut("%.2f pounds less than the original seed frame" % (baseFrame.weight-maxFrame.weight))
+        printOut("%.2f pounds less than the original seed frame" % (baseFrame.weight - maxFrame.weight))
         printOut("\nThe avg. displacement of all target nodes for the best frame was")
-        printOut("%.5f inches less than the original seed frame" % (baseFrameAvgDisp-averageDisp))
+        printOut("%.5f inches less than the original seed frame" % (baseFrameAvgDisp - averageDisp))
 
         # Plot graphs and frame/displacements
 
