@@ -4,7 +4,7 @@ for i in range(0,10):
     # ----------------------------
     numGenerations = 50
     numSeeds = 2
-    numChildrenPerSeed = 75
+    numChildrenPerSeed = 20
     maxNumRandNodes = 1
     maxNumRandTubes = 2
 
