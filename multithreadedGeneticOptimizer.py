@@ -2,7 +2,7 @@
 # ----------------------------
 numGenerations = 100
 numSeeds = 2                # Will run faster if even
-numChildrenPerSeed = 200
+numChildrenPerSeed = 10
 maxNumRandNodes = 1
 maxNumRandTubes = 3
 
