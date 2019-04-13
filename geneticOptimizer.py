@@ -20,7 +20,7 @@ for i in range(0,10):
     # ----------------------------
     finalDisplacementScaling = 15
     graphUpdatePeriod = 1
-    plotCurrentFrame = True
+    plotCurrentFrame = False
     # ----------------------------
 
     from createFrame import *

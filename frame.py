@@ -24,6 +24,11 @@ class Frame:
     def getTorStiffness(self):
         return 0
 
+    def getDisplacements(self):
+        numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be = generateMatrices(self, False)
+        _, displacements, _ = Solver(numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be)
+        return displacements
+
     def solveAllLoadCases(self, weightMultiplier):
         scorePerWeight = 0
         avgDisps = []
