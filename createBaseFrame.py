@@ -76,6 +76,7 @@ def createBaseFrame():
     frame.addTube(RD_1x65, RD_5x35, "lower-aft-left-frontbox", "mid-upper-left-sideimpact", True, True)
     frame.addTube(RD_1x65, RD_5x35, "lower-aft-left-frontbox", "left-lower-mainhoop", True, True)
     frame.addTube(RD_1x65, RD_5x35, "mid-upper-left-sideimpact", "left-sideimpact-mainhoop", True, True, "UpperSideImpact")
+    frame.addTube(RD_1x65, RD_5x35, "mid-upper-left-sideimpact", "left-lower-mainhoop", True, True)
 
     # main roll hoop
     frame.addTube(RD_1x95, RD_1x95, "left-lower-mainhoop", "left-sideimpact-mainhoop", True, True, "MainRollHoop")

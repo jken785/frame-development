@@ -84,7 +84,7 @@ class RD_1x49:
     I = 0.0165939
     J = 0.0331878
     linewidth = oneLinewidth
-    color = '#23f23e'
+    color = '#555555'
     round = True
 
 class RD_1x65:
