@@ -2,14 +2,14 @@
 # ----------------------------
 numGenerations = 100
 numSeeds = 2                # Will run faster if even
-numChildrenPerSeed = 10
+numChildrenPerSeed = 20
 maxNumRandNodes = 1
 maxNumRandTubes = 3
 
-weightMultiplier = 0
-maxDispOfAnyTargetNode = 0.183
-maxAvgDisp = 0.173
-maxWeight = 55
+weightMultiplier = 0.0075
+maxDispOfAnyTargetNode = 100
+maxAvgDisp = 100
+maxWeight = 100
 
 numProcesses = 2            # MUST be even, and <= numSeeds
 

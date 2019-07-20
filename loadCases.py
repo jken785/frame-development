@@ -58,7 +58,7 @@ class LoadCases:
         fixedNodes = [52, 46, 47, 44, 45]
 
         objFuncNodes = [12, 13, 31, 32]
-        objFuncWeight = 1
+        objFuncWeight = 0.5
 
     # Must add each load case that you wish to include while optimizing
     listLoadCases = [twist, suspLoads]
