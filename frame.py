@@ -1,10 +1,12 @@
 import random
+import numpy as np
 from node import *
 import generateMatrices
 from solver import *
 from generateMatrices import *
 from objectiveFunction import *
 from plotter import *
+from loadCases import *
 
 
 class Frame:
@@ -18,11 +20,23 @@ class Frame:
         self.internalForces = None
         self.displacements = None
         self.reactions = None
-        # ***Should have a list of the required nodes, which should be the only nodes
+        # Should have a list of the required nodes, which should be the only nodes
         # accessed by loadCases/objectiveFunction b/c it wont be possible to remove them
 
-    def getTorStiffness(self):
-        return 0
+    def computeTorStiffness(self):
+        frontUpperLeftAArmNode = 4
+        frontLowerLeftAArmNode = 6
+
+        nodeToMeasureStiffnessAt = 4
+
+        # Assumes couple moment
+        torque = 2*LoadCases.twist.forceUpUpper[2] * self.nodes[frontUpperLeftAArmNode].y
+        torque += 2*LoadCases.twist.forceUpLower[2] * self.nodes[frontLowerLeftAArmNode].y
+
+        torStiffness = (torque * 0.112984)
+        torStiffness /= (np.degrees(np.arcsin(self.displacements[2][nodeToMeasureStiffnessAt] / self.nodes[nodeToMeasureStiffnessAt].y)))
+
+        self.torStiffness = abs(torStiffness)
 
     def getDisplacements(self):
         numTubes, numNodes, coord, con, fixtures, loads, dist, E, G, areas, I_y, I_z, J, St, be = generateMatrices(self, False)
@@ -36,6 +50,8 @@ class Frame:
         for loadCase in LoadCases.listLoadCases:
             self.setLoadCase(loadCase)
             scorePerWeightToAdd, dispList, avgDisplacement = self.solve(weightMultiplier)
+            if loadCase is LoadCases.twist:
+                self.computeTorStiffness()
             scorePerWeight += scorePerWeightToAdd
             avgDisps.append(avgDisplacement)
             for disp in dispList:
@@ -363,7 +379,7 @@ class Frame:
         plotFrameAni(self, axes, title)
 
     def toTextFile(self, path):
-        createFramePath = "%s\\createMaxFrame.txt" % path
+        createFramePath = "%s/createMaxFrame.txt" % path
         createFrameFile = open(createFramePath, "w")
 
         for node in self.nodes:

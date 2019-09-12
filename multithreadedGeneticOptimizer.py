@@ -1,8 +1,8 @@
 # Important Sim Parameters
 # ----------------------------
-numGenerations = 100
-numSeeds = 2                # Will run faster if even
-numChildrenPerSeed = 20
+numGenerations = 5
+numSeeds = 4                # Will run faster if even
+numChildrenPerSeed = 10
 maxNumRandNodes = 1
 maxNumRandTubes = 3
 
@@ -11,9 +11,9 @@ maxDispOfAnyTargetNode = 100
 maxAvgDisp = 100
 maxWeight = 100
 
-numProcesses = 2            # MUST be even, and <= numSeeds
+numProcesses = 4           # MUST be even, and <= numSeeds
 
-useOriginalBaseFrame = False
+useOriginalBaseFrame = True
 # ----------------------------
 
 
@@ -66,13 +66,13 @@ def generateAndSolveIndividuals(queue, seeds):
 if __name__ == "__main__":
     currentDateTime = datetime.datetime.now()
     workingDir = os.getcwd()
-    path = "%s\\results" % workingDir
+    path = "%s/results" % workingDir
     if os.path.isdir(path) is False:
         os.mkdir(path)
     timestamp = currentDateTime.strftime("%Y-%m-%d %Hh %Mm %Ss")
-    simFolderPath = "%s\\results\\%s" % (workingDir, timestamp)
+    simFolderPath = "%s/results/%s" % (workingDir, timestamp)
     os.mkdir(simFolderPath)
-    consOutPath = "%s\\consoleOuput.txt" % simFolderPath
+    consOutPath = "%s/consoleOuput.txt" % simFolderPath
     consoleOutput = open(consOutPath, "w")
 
     def printOut(line):
@@ -132,10 +132,12 @@ if __name__ == "__main__":
     else:
         baseFrame = createFrame()
     baseFrameScorePerWeight, dispList, baseFrameAvgDisp = baseFrame.solveAllLoadCases(weightMultiplier)
+    baseFrameTorStiffness = baseFrame.torStiffness
     printOut("\nBase Frame Weight: %.3f" % baseFrame.weight)
     printOut("Base Frame Score: %.3f" % baseFrameScorePerWeight)
     printOut("Base Frame Avg. Disp.: %.5f" % baseFrameAvgDisp)
     printOut("Base Frame Max Disp of A Target Node: %.5f" % max(dispList))
+    printOut("Base Frame Torsional Stiffness: %.2f N*m/deg" % baseFrameTorStiffness)
 
     maxScoresPerWeight.append(baseFrameScorePerWeight)
     weights.append(baseFrame.weight)
@@ -237,7 +239,8 @@ if __name__ == "__main__":
         printOut("Generation No. %i" % gen)
         printOut("Max Score Per Weight:\t\t%.3f" % maxScorePerWeight)
         printOut("Avg Disp. of Target Nodes:\t%.5f" % averageDisp)
-        printOut("Total Weight:\t\t\t%.3f" % maxFrame.weight)
+        printOut("Total Weight:\t\t\t\t%.3f" % maxFrame.weight)
+        printOut("Torsional Stiffness:\t\t%.2f N*m/deg" % maxFrame.torStiffness)
         timeRemaining = (minutesPerGen*numGenerations) - (minutesPerGen*(gen-1))
         print("\n~%.1f minutes remaining..." % timeRemaining)
 
@@ -262,14 +265,16 @@ if __name__ == "__main__":
         printOut("%.2f pounds less than the original seed frame" % (baseFrame.weight-maxFrame.weight))
         printOut("\nThe avg. displacement of all target nodes for the best frame was")
         printOut("%.5f inches less than the original seed frame" % (baseFrameAvgDisp-averageDisp))
+        printOut("\nThe torsional stiffness of the best frame was")
+        printOut("%.2f N*m/deg more than the original seed frame" % (maxFrame.torStiffness - baseFrameTorStiffness))
 
         # Plot graphs and frame/displacements
 
-        figPath = '%s\\graph.png' % simFolderPath
+        figPath = '%s/graph.png' % simFolderPath
         fig.savefig(figPath)
         for loadCase in LoadCases.listLoadCases:
             maxFrame.setLoadCase(loadCase)
-            figPath = '%s\\%s.png' % (simFolderPath, loadCase.name)
+            figPath = '%s/%s.png' % (simFolderPath, loadCase.name)
             maxFrame.solve(weightMultiplier)
             maxFrame.plot(finalDisplacementScaling, figPath)
         plt.close(fig)

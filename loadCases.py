@@ -6,18 +6,18 @@ class LoadCases:
         # LOADS
         # specify forces as a list, then place that list at the end of a list of nodes affected by that force
 
-        forceUpUpper = [0, 0, 0, 0, 0, 0]
-        nodesForceUpUpper = [6, forceUpUpper]
+        forceUpUpper = [0, 0, 100, 0, 0, 0]
+        nodesForceUpUpper = [4, forceUpUpper]
 
-        forceUpLower = [0, 0, 0, 0, 0, 0]
-        nodesForceUpLower = [8, forceUpLower]
+        forceUpLower = [0, 0, 100, 0, 0, 0]
+        nodesForceUpLower = [6, forceUpLower]
 
         # do this again for every distinct force in the simulation
-        forceDownUpper = [0, 0, 0, 0, 0, 0]
-        nodesForceDownUpper = [7, forceDownUpper]
+        forceDownUpper = [0, 0, -100, 0, 0, 0]
+        nodesForceDownUpper = [5, forceDownUpper]
 
-        forceDownLower = [0, 0, 0, 0, 0, 0]
-        nodesForceDownLower = [9, forceDownLower]
+        forceDownLower = [0, 0, -100, 0, 0, 0]
+        nodesForceDownLower = [6, forceDownLower]
 
 
         # put all the lists of nodes (followed by the forces that affect them) in one big list called "nodeForceCases"
