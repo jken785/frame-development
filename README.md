@@ -7,7 +7,3 @@ as well as the resultant forces in tube members. The displacements at nodes rela
 are then used to calculate a "score" for the frame using an objective function. Tube thickness and
 geometry changes are made at random via a genetic algorithm, and only the frames with the best scores
 survive for use as the "seed" frames in the next generation.
-
-I eventually hope to implement generative design.
-
-**MaRGolIn iS bIG W A C K**
