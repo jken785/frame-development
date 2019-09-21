@@ -65,6 +65,7 @@ def setEqualScaling(frame, axes):
     X = np.array(X)
     Y = np.array(Y)
     Z = np.array(Z)
+
     # Taken from Stack Overflow -- creates "cubic bounding box" to get equal axis lengths
     max_range = np.array([X.max() - X.min(), Y.max() - Y.min(), Z.max() - Z.min()]).max() / 2.0
     mid_x = (X.max() + X.min()) * 0.5
