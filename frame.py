@@ -7,6 +7,7 @@ from generateMatrices import *
 from objectiveFunction import *
 from plotter import *
 from loadCases import *
+from math import *
 
 
 class Frame:
@@ -24,18 +25,55 @@ class Frame:
         # accessed by loadCases/objectiveFunction b/c it wont be possible to remove them
 
     def computeTorStiffness(self):
-        frontUpperLeftAArmNode = 4
-        frontLowerLeftAArmNode = 6
+        frontUpperLeftAArmNodeFore = 4
+        frontUpperLeftAArmNodeAft = 8
+        frontLowerLeftAArmNodeFore = 6
+        frontLowerLeftAArmNodeAft = 10
 
-        #Generally stick to having this be an upper a-arm node
         nodeToMeasureStiffnessAt = 8
 
+        # Z height of center of rotation, located along car's centerline
+        zCenter = 10
+
+        # How close the two radii should be for while-loop end condition
+        finalTolerance = 0.001
+
+        y = self.nodes[nodeToMeasureStiffnessAt].y
+        z = self.nodes[nodeToMeasureStiffnessAt].z
+        radius = sqrt(pow(y, 2) + pow(z - zCenter, 2))
+        displacedY = y + self.displacements[1][nodeToMeasureStiffnessAt]
+        displacedZ = z + self.displacements[2][nodeToMeasureStiffnessAt]
+        displacedRadius = sqrt(pow(displacedY, 2) + pow(displacedZ - zCenter, 2))
+
+        if abs(y) > abs(displacedY) and abs(z) > abs(displacedZ):
+            while abs(displacedRadius - radius) > finalTolerance:
+                if displacedRadius > radius:
+                    zCenter -= finalTolerance / 2
+                else:
+                    zCenter += finalTolerance / 2
+                radius = sqrt(pow(y, 2) + pow(z - zCenter, 2))
+                displacedRadius = sqrt(pow(displacedY, 2) + pow(displacedZ - zCenter, 2))
+        else:
+            while abs(displacedRadius - radius) > finalTolerance:
+                if displacedRadius < radius:
+                    zCenter -= finalTolerance / 2
+                else:
+                    zCenter += finalTolerance / 2
+                radius = sqrt(pow(y, 2) + pow(z - zCenter, 2))
+                displacedRadius = sqrt(pow(displacedY, 2) + pow(displacedZ - zCenter, 2))
+        print("Center at z = ", zCenter, "inches")
+
+        distBetweenNodeBeforeAndAfterDisp = sqrt(pow(y - displacedY, 2) + pow(z - displacedZ, 2))
+        angle = 2 * degrees(asin((distBetweenNodeBeforeAndAfterDisp / 2) / radius))
+
         # Assumes couple moment
-        torque = 2*LoadCases.twist.forceUpUpper[2] * self.nodes[frontUpperLeftAArmNode].y
-        torque += 2*LoadCases.twist.forceUpLower[2] * self.nodes[frontLowerLeftAArmNode].y
+        torque = 2 * LoadCases.twist.forceUpUpper[2] * self.nodes[frontUpperLeftAArmNodeFore].y
+        torque += 2 * LoadCases.twist.forceUpUpper[2] * self.nodes[frontUpperLeftAArmNodeAft].y
+        torque += 2 * LoadCases.twist.forceUpLower[2] * self.nodes[frontLowerLeftAArmNodeFore].y
+        torque += 2 * LoadCases.twist.forceUpLower[2] * self.nodes[frontLowerLeftAArmNodeAft].y
 
         torStiffness = (torque * 0.112984)
-        torStiffness /= (np.degrees(np.arcsin(self.displacements[2][nodeToMeasureStiffnessAt] / self.nodes[nodeToMeasureStiffnessAt].y)))
+        torStiffness /= angle
 
         self.torStiffness = abs(torStiffness)
 

@@ -8,19 +8,19 @@ class LoadCases:
 
         # Upper forces on a-arm nodes on the left side of the car
         forceUpUpper = [0, 0, 100, 0, 0, 0]
-        nodesForceUpUpper = [4, forceUpUpper]
+        nodesForceUpUpper = [4, 8, forceUpUpper]
 
         forceUpLower = [0, 0, 100, 0, 0, 0]
-        nodesForceUpLower = [6, forceUpLower]
+        nodesForceUpLower = [6, 10, forceUpLower]
 
         # do this again for every distinct force in the simulation
 
         # Down forces on a-arm nodes on the right side of the car (use mirrored "%m" node numbers)
         forceDownUpper = [0, 0, -100, 0, 0, 0]
-        nodesForceDownUpper = [5, forceDownUpper]
+        nodesForceDownUpper = [5, 9, forceDownUpper]
 
         forceDownLower = [0, 0, -100, 0, 0, 0]
-        nodesForceDownLower = [7, forceDownLower]
+        nodesForceDownLower = [7, 11, forceDownLower]
 
 
         # put all the lists of nodes (followed by the forces that affect them) in one big list called "nodeForceCases"
