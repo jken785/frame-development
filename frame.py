@@ -27,7 +27,8 @@ class Frame:
         frontUpperLeftAArmNode = 4
         frontLowerLeftAArmNode = 6
 
-        nodeToMeasureStiffnessAt = 4
+        #Generally stick to having this be an upper a-arm node
+        nodeToMeasureStiffnessAt = 8
 
         # Assumes couple moment
         torque = 2*LoadCases.twist.forceUpUpper[2] * self.nodes[frontUpperLeftAArmNode].y
@@ -253,7 +254,12 @@ class Frame:
         thickness = random.choice(allRoundSizes)
         self.addTube(thickness, RD_5x35, nodeFrom.name, nodeTo.name, True, False)
 
-    def addNode(self, name, x, y, z, isSymmetric, isRequired, maxXPosDev=None, maxXNegDev=None, maxYPosDev=None, maxYNegDev=None, maxZPosDev=None, maxZNegDev=None,xGroup=None):
+    def addNode(self, name: object, x: object, y: object, z: object, isSymmetric: object, isRequired: object, maxXPosDev: object = None, maxXNegDev: object = None,
+                maxYPosDev: object = None,
+                maxYNegDev: object = None,
+                maxZPosDev: object = None,
+                maxZNegDev: object = None,
+                xGroup: object = None) -> object:
         node = Node(self, name, x, y, z, isSymmetric, isRequired, maxXPosDev, maxXNegDev, maxYPosDev, maxYNegDev, maxZPosDev, maxZNegDev, xGroup)
         self.nodes.append(node)
         if isSymmetric:

@@ -1,10 +1,10 @@
-from createBaseFrame import *
-from create2017Frame import *
+
+from Create2019Frame import *
 from loadCases import *
 import plotter
 
 
-frame = create2017Frame()
+frame = createBaseFrame()
 frame.toString('nodes')
 # you change this
 forcesOnScales = [28, 70, 109, 142]

@@ -5,9 +5,5 @@ frame = createBaseFrame()
 
 frame.toString('all')
 
-frame.solveAllLoadCases(0.0075)
-
-if frame.torStiffness is not None:
-    print("%.2f N*m/deg" % frame.torStiffness)
-else:
-    print("no tor stiffness val")
+frame.solveAllLoadCases(1)
+print("\n%.2f N*m/deg" % frame.torStiffness)

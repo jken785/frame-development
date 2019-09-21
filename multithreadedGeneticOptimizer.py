@@ -1,6 +1,6 @@
 # Important Sim Parameters
 # ----------------------------
-numGenerations = 1
+numGenerations = 100
 numSeeds = 4                # Will run faster if even
 numChildrenPerSeed = 10
 maxNumRandNodes = 1

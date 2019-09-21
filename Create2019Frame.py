@@ -14,11 +14,8 @@ def createBaseFrame():
     frame.addNode("lower-left-bulkhead", 17.852, -6.929, 4.82, True, True)
     frame.addNode("upper-fore-left-frontbox", 33.203, -8.69, 8.932, True, True)
     frame.addNode("lower-fore-left-frontbox", 33.652, -6.929, 4.82, True, True)
-    # edited +0.5" in y-dir
-    frame.addNode("upper-aft-left-frontbox", 44.194, -8.084, 8.907, True, True)
-    # not edited -0.5" in y-dir
+    frame.addNode("upper-aft-left-frontbox", 44.194, -8.584, 8.907, True, True)
     frame.addNode("lower-aft-left-frontbox", 43.97, -6.929, 4.82, True, True)
-    #
     frame.addNode("left-frontdamper", 40.2, -9, 17.25, True, True)
     frame.addNode("fore-upper-left-sideimpact", 44.731, -8.497, 12.5, True, True, 4, 0, 1, 2, 0, 0)
     frame.addNode("upper-left-fronthoop", 46.445, -6.53, 23.133, True, True, 3, 2, 1, 3, 1, 1)
@@ -34,14 +31,12 @@ def createBaseFrame():
     frame.addNode("engine-to-harness", 75.698, -9.598, 23.1, True, True)
     frame.addNode("foremost-enginemount", 79.706, -7.6675, 14.875, False, True)
     frame.addNode("end-of-bend-harness", 76.65, -7.3, 23.1, True, True)
-    #  not edited -0.5" in y-dir
     frame.addNode("upper-fore-rearbox", 93.5544, -8.6, 10.944, True, True)
     frame.addNode("lower-fore-rearbox", 92.265, -7.5, 5.907, True, True)
     frame.addNode("lower-mid-rearbox", 97.543, -6.238, 4.9119, True, True)
     frame.addNode("lower-aft-rearbox", 103.246, -6.2378, 5.904, True, True)
     frame.addNode("upper-aft-rearbox", 105.572, -9.056, 10.9688, True, True)
     frame.addNode("upper-mid-rearbox", 99.5, -8.8258, 10.9563, True, True)
-    #
     frame.addNode("upper-rearRockerPlane", 99.5, -6.64, 13.706, True, True, 1, 1, 1, 1, 2, 1, "RockerPlane")
     frame.addNode("pyramid", 99.5, 0, 17, False, True, 1, 1, 0, 0, 3, 0, "RockerPlane")
     frame.addNode("upper-aft-enginemount", 93.5233, -4.2625, 16.4, True, True)
@@ -162,5 +157,3 @@ def createBaseFrame():
     frame.addTube(RD_1xSLD, RD_1xSLD, "lower-aft-enginemount", "lower-aft-enginemount#m", False, True)
 
     return frame
-
-
