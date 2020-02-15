@@ -30,7 +30,7 @@ class Frame:
         frontLowerLeftAArmNodeFore = 6
         frontLowerLeftAArmNodeAft = 10
 
-        nodeToMeasureStiffnessAt = 8
+        nodeToMeasureStiffnessAt = 4
 
         # Z height of center of rotation, located along car's centerline
         zCenter = 10

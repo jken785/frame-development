@@ -12,12 +12,11 @@ def createBaseFrame():
 
     frame.addNode("upper-left-bulkhead", 17.852, -6.929, 17.195, True, True)
     frame.addNode("lower-left-bulkhead", 17.852, -6.929, 4.82, True, True)
-    frame.addNode("upper-fore-left-frontbox", 33.203, -8.69, 8.932, True, True)
-    frame.addNode("lower-fore-left-frontbox", 33.652, -6.929, 4.82, True, True)
-    # edited +0.5" in y-dir
-    frame.addNode("upper-aft-left-frontbox", 44.194, -8.084, 8.907, True, True)
-    # not edited -0.5" in y-dir
-    frame.addNode("lower-aft-left-frontbox", 43.97, -6.929, 4.82, True, True)
+    # Changed based off new points
+    frame.addNode("upper-fore-left-frontbox", 32.6614, -7.646, 9.473, True, True)
+    frame.addNode("lower-fore-left-frontbox", 33.6525, -6.929, 5.2414, True, True)
+    frame.addNode("upper-aft-left-frontbox", 44.4982, -7.5404, 9.4483, True, True)
+    frame.addNode("lower-aft-left-frontbox", 44.1212, -6.4445, 5.2008, True, True)
     #
     frame.addNode("left-frontdamper", 40.2, -9, 17.25, True, True)
     frame.addNode("fore-upper-left-sideimpact", 44.731, -8.497, 12.5, True, True, 4, 0, 1, 2, 0, 0)
@@ -34,16 +33,20 @@ def createBaseFrame():
     frame.addNode("engine-to-harness", 75.698, -9.598, 23.1, True, True)
     frame.addNode("foremost-enginemount", 79.706, -7.6675, 14.875, False, True)
     frame.addNode("end-of-bend-harness", 76.65, -7.3, 23.1, True, True)
-    #  not edited -0.5" in y-dir
-    frame.addNode("upper-fore-rearbox", 93.5544, -8.6, 10.944, True, True)
-    frame.addNode("lower-fore-rearbox", 92.265, -7.5, 5.907, True, True)
+    # Changed nodes based on new suspension points
+    frame.addNode("upper-fore-rearbox", 93.5544, -8.214, 11.0101, True, True)
+    frame.addNode("lower-fore-rearbox", 92.265, -6.2641, 5.7123, True, True)
+    # Did not change mid
     frame.addNode("lower-mid-rearbox", 97.543, -6.238, 4.9119, True, True)
-    frame.addNode("lower-aft-rearbox", 103.246, -6.2378, 5.904, True, True)
-    frame.addNode("upper-aft-rearbox", 105.572, -9.056, 10.9688, True, True)
+    #
+    frame.addNode("lower-aft-rearbox", 102.246, -6.2641, 5.6776, True, True)
+    frame.addNode("upper-aft-rearbox", 106.0549, -9.0271, 10.8805, True, True)
+    # Did not change mid
     frame.addNode("upper-mid-rearbox", 99.5, -8.8258, 10.9563, True, True)
     #
     frame.addNode("upper-rearRockerPlane", 99.5, -6.64, 13.706, True, True, 1, 1, 1, 1, 2, 1, "RockerPlane")
     frame.addNode("pyramid", 99.5, 0, 17, False, True, 1, 1, 0, 0, 3, 0, "RockerPlane")
+    #frame.addNode("TowBarVMount", 102.246, 0, 5.6776, False, True)
     frame.addNode("upper-aft-enginemount", 93.5233, -4.2625, 16.4, True, True)
     frame.addNode("lower-aft-enginemount", 93.5413, -3.6565, 7.177, True, True)
     frame.addNode("foremost-enginemount-mirror", 79.03, 7.648, 14.38, False, True)
@@ -79,7 +82,7 @@ def createBaseFrame():
                   "UpperSideImpact")
     frame.addTube(RD_75x35, RD_5x35, "upper-aft-left-frontbox", "mid-upper-left-sideimpact", True, True)
     frame.addTube(RD_1x65, RD_5x35, "lower-aft-left-frontbox", "mid-upper-left-sideimpact", True, True)
-    frame.addTube(RD_1x65, RD_5x35, "lower-aft-left-frontbox", "left-lower-mainhoop", True, True)
+    frame.addTube(SQ_1x49, SQ_1x49, "lower-aft-left-frontbox", "left-lower-mainhoop", True, True)
     frame.addTube(RD_1x65, RD_5x35, "mid-upper-left-sideimpact", "left-sideimpact-mainhoop", True, True,
                   "UpperSideImpact")
     frame.addTube(RD_1x65, RD_5x35, "mid-upper-left-sideimpact", "left-lower-mainhoop", True, True)
@@ -125,6 +128,10 @@ def createBaseFrame():
     frame.addTube(RD_5x35, RD_5x35, "lower-aft-enginemount", "lower-mid-rearbox", True, True)
     frame.addTube(RD_1x49, RD_5x35, "lower-aft-rearbox", "lower-aft-rearbox#m", False, True)
     frame.addTube(RD_1x49, RD_5x35, "upper-aft-rearbox", "upper-aft-rearbox#m", False, True)
+    #
+    #frame.addTube(RD_1x49, RD_5x35, "upper-aft-rearbox", "TowBarVMount", False, True)
+    #frame.addTube(RD_1x49, RD_5x35, "upper-aft-rearbox#m", "TowBarVMount", False, True)
+    #
     frame.addTube(RD_1x49, RD_5x35, "upper-fore-rearbox", "upper-mid-rearbox", True, True, "UpperRearbox")
     frame.addTube(RD_1x49, RD_5x35, "upper-mid-rearbox", "upper-aft-rearbox", True, True, "upperRearbox")
     frame.addTube(RD_1x35, RD_5x35, "upper-fore-rearbox", "upper-aft-enginemount", True, True)

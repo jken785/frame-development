@@ -39,6 +39,54 @@ class RD_5x49:
     color = '#d9c03a'
     round = True
 
+class RD_625x28:
+    name = "0.625 x 0.028"
+    string = "RD_625x28"
+    E = E
+    G = G
+    A = 0.0525149
+    I = 0.0013898
+    J = 0.0027795
+    linewidth = halfLineWidth
+    color = '#00FF00'
+    round = True
+
+class RD_625x35:
+    name = "0.625 x 0.035"
+    string = "RD_625x35"
+    E = E
+    G = G
+    A = 0.0648739
+    I = 0.0028328
+    J = 0.0056655
+    linewidth = halfLineWidth
+    color = '#00FF00'
+    round = True
+
+class RD_625x49:
+    name = "0.625 x 0.049"
+    string = "RD_625x49"
+    E = E
+    G = G
+    A = 0.0886683
+    I = 0.0037039
+    J = 0.0074077
+    linewidth = halfLineWidth
+    color = '#FF00FF'
+    round = True
+
+class RD_75x28:
+    name = "0.75 x 0.028"
+    string = "RD_75x28"
+    E = E
+    G = G
+    A = 0.0635104
+    I = 0.0041446
+    J = 0.0082892
+    linewidth = threeQuartLinewidth
+    color = '#800000'
+    round = True
+
 class RD_75x35:
     name = "0.75 x 0.035"
     string = "RD_75x35"
@@ -147,6 +195,18 @@ class RD_1xSLD:
     color = '#000000'
     round = True
 
+class SQ_625x35:
+    name = "0.625 x 0.625 x 0.035"
+    string = "SQ_625x35"
+    E = E
+    G = G
+    A = 0.0824227
+    I = 0.0047794
+    J = 0.0095589
+    linewidth = oneLinewidth
+    color = '#00FFFF'
+    round = False
+
 class SQ_1x35:
     name = "1 x 1 x 0.035"
     string = "SQ_1x35"
@@ -184,8 +244,19 @@ class SQ_1x65:
     color = '#9a5b9f'
     round = False
 
+class RC_1x1_5x65:
+    name = "1 x 1.5 x 0.065"
+    string = "RC_1x1.5x65"
+    E = E
+    G = G
+    A = 0.3048958
+    I = 0.0489862
+    J = 0.1419569
+    linewidth = oneLinewidth
+    color = '#d2691e'
+    round = False
 
 # When adding a tube, don't forget to also add its name to this list (used for random selection)
 # MUST BE IN ORDER OF INCREASING OD, THEN WALL THICKNESS (AND NO SQUARE TUBES -- THOSE MUST BE SET MANUALLY)
-allRoundSizes = [RD_5x35, RD_5x49, RD_75x35, RD_75x49, RD_1x35, RD_1x49, RD_1x65, RD_1x83,
+allRoundSizes = [RD_5x35, RD_5x49, RD_75x28, RD_75x35, RD_75x49, RD_1x35, RD_1x49, RD_1x65, RD_1x83,
             RD_1x95, RD_1x120]

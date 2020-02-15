@@ -9,19 +9,22 @@ class LoadCases:
         # Upper forces on a-arm nodes on the left side of the car
         forceUpUpper = [0, 0, 100, 0, 0, 0]
         nodesForceUpUpper = [4, 8, forceUpUpper]
+        #nodesForceUpUpper = [38, 46, forceUpUpper]
 
         forceUpLower = [0, 0, 100, 0, 0, 0]
         nodesForceUpLower = [6, 10, forceUpLower]
+        #nodesForceUpLower = [40, 44, forceUpLower]
 
         # do this again for every distinct force in the simulation
 
         # Down forces on a-arm nodes on the right side of the car (use mirrored "%m" node numbers)
         forceDownUpper = [0, 0, -100, 0, 0, 0]
         nodesForceDownUpper = [5, 9, forceDownUpper]
+        #nodesForceDownUpper = [39, 47, forceDownUpper]
 
         forceDownLower = [0, 0, -100, 0, 0, 0]
         nodesForceDownLower = [7, 11, forceDownLower]
-
+        #nodesForceDownLower = [41, 45, forceDownLower]
 
         # put all the lists of nodes (followed by the forces that affect them) in one big list called "nodeForceCases"
         nodeForceCases = [nodesForceUpUpper, nodesForceUpLower, nodesForceDownUpper, nodesForceDownLower]
@@ -30,7 +33,11 @@ class LoadCases:
         # to define a node's fixtures more specifically, use Frame.setFixtures(self, node, x, y, z, xMom, yMom, zMom)
 
         # put any nodes that you would like to complete fix (since a moment is applied on the car) in the list below:
+        #Fixed rear nodes
         fixedNodes = [44, 45, 46, 47]
+
+        #Fixed front nodes
+        #fixedNodes = [4, 5, 6, 7]
 
         # Optimization Target Nodes
         # defines which nodes get submitted to the objective function for displacement minimization
