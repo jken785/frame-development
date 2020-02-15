@@ -106,8 +106,7 @@ def createBaseFrame():
     frame.addTube(SQ_625x35, RD_5x35, "lower-aft-left-frontbox#m", "frontbox-crossbrace", False, False, "Crossbrace3")
     frame.addTube(SQ_1x35, RD_5x35, "left-rockernode", "frontbox-crossbrace", False, False, "Crossbrace2")
     frame.addTube(SQ_1x35, RD_5x35, "left-rockernode#m", "frontbox-crossbrace", False, False, "Crossbrace2")
-    frame.addTube(RD_625x28, RD_5x35, "lower-fore-left-frontbox", "lower-fore-left-frontbox#m", False, False,
-                  "Crossbrace1")
+    frame.addTube(RD_625x28, RD_5x35, "lower-fore-left-frontbox", "lower-fore-left-frontbox#m", False, False, "Crossbrace1")
 
     frame.addTube(RD_1x49, RD_5x35, "left-sideimpact-mainhoop", "engine-to-harness", True, True)
     frame.addTube(RD_625x28, RD_5x35, "engine-to-harness", "foremost-enginemount", False, True)
@@ -167,7 +166,4 @@ def createBaseFrame():
     frame.addTube(RD_1xSLD, RD_1xSLD, "foremost-enginemount-mirror", "lower-aft-enginemount#m", False, True)
 
     frame.addTube(RD_1xSLD, RD_1xSLD, "lower-aft-enginemount", "lower-aft-enginemount#m", False, True)
-
     return frame
-
-

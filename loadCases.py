@@ -41,7 +41,7 @@ class LoadCases:
 
         # Optimization Target Nodes
         # defines which nodes get submitted to the objective function for displacement minimization
-        objFuncNodes = [4, 5, 6, 7]
+        objFuncNodes = [4, 6, 8, 10]
 
         # defines how heavily displacements at these nodes are weighted relative to those in other load cases
 
