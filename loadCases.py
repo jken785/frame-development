@@ -34,10 +34,10 @@ class LoadCases:
 
         # put any nodes that you would like to complete fix (since a moment is applied on the car) in the list below:
         #Fixed rear nodes
-        fixedNodes = [44, 45, 46, 47]
+        fixedNodes = [38, 39, 40, 41, 44, 45, 46, 47]
 
         #Fixed front nodes
-        #fixedNodes = [4, 5, 6, 7]
+        #fixedNodes = [4, 6, 8, 10]
 
         # Optimization Target Nodes
         # defines which nodes get submitted to the objective function for displacement minimization
@@ -57,10 +57,10 @@ class LoadCases:
         damperLoadNodes = [7, 29, damperForce]
 
         rockerForceRight = [0, 300, 0, 0, 0, 0]
-        rockerForceRightNodes = [28, rockerForceRight]
+        rockerForceRightNodes = [15, rockerForceRight]
 
         rockerForceLeft = [0, -300, 0, 0, 0, 0]
-        rockerForceLeftNodes = [18, rockerForceLeft]
+        rockerForceLeftNodes = [14, rockerForceLeft]
 
 
         nodeForceCases = [damperLoadNodes, rockerForceRightNodes, rockerForceLeftNodes]

@@ -15,6 +15,30 @@ solidLinewidth = 4
 # A is the cross-sectional area
 # I is the second moment of inertia across the cross-section
 # J is the polar moment of inertia about the cross-section
+class RD_375x28:
+    name = "0.375 x 0.028"
+    string = "RD_375x28"
+    E = E
+    G = G
+    A = 0.0305237
+    I = 0.0004624
+    J = 0.0009248
+    linewidth = halfLineWidth
+    color = '#FFA07A'
+    round = True
+
+class RD_5x28:
+    name = "0.5 x 0.028"
+    string = "RD_5x28"
+    E = E
+    G = G
+    A = 0.0415193
+    I = 0.0011603
+    J = 0.0023206
+    linewidth = halfLineWidth
+    color = '#DAA520'
+    round = True
+
 class RD_5x35:
     name = "0.5 x 0.035"
     string = "RD_5x35"
@@ -258,5 +282,5 @@ class RC_1x1_5x65:
 
 # When adding a tube, don't forget to also add its name to this list (used for random selection)
 # MUST BE IN ORDER OF INCREASING OD, THEN WALL THICKNESS (AND NO SQUARE TUBES -- THOSE MUST BE SET MANUALLY)
-allRoundSizes = [RD_5x35, RD_5x49, RD_75x28, RD_75x35, RD_75x49, RD_1x35, RD_1x49, RD_1x65, RD_1x83,
+allRoundSizes = [RD_375x28, RD_5x28, RD_5x35, RD_5x49, RD_75x28, RD_75x35, RD_75x49, RD_1x35, RD_1x49, RD_1x65, RD_1x83,
             RD_1x95, RD_1x120]
