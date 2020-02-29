@@ -26,7 +26,7 @@ def plotFrame(frame, displacedScaling, figPath=None):
         plot(tube, axes)
     if frame.displacements is not None:
         for tube in frame.tubes:
-            plotDisplacedTube(frame, tube, axes, displacedScaling)
+           plotDisplacedTube(frame, tube, axes, displacedScaling)
     if figPath is not None:
         fig.savefig(figPath)
         plt.close(fig)

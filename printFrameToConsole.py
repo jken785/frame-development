@@ -3,6 +3,7 @@ from createBaseFrame import *
 
 frame = createBaseFrame()
 
+#Add (, 'long') after 'all' to have more verbose output
 frame.toString('all')
 
 frame.solveAllLoadCases(1)

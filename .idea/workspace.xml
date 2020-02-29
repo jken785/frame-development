@@ -6,7 +6,8 @@
       <change beforePath="$PROJECT_DIR$/Create2020Frame.py" beforeDir="false" afterPath="$PROJECT_DIR$/Create2020Frame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/createBaseFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/createBaseFrame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loadCases.py" beforeDir="false" afterPath="$PROJECT_DIR$/loadCases.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tubeSizes.py" beforeDir="false" afterPath="$PROJECT_DIR$/tubeSizes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotter.py" beforeDir="false" afterPath="$PROJECT_DIR$/plotter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/printFrameToConsole.py" beforeDir="false" afterPath="$PROJECT_DIR$/printFrameToConsole.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,14 +16,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5269878">
+    <splitter split-orientation="horizontal" split-proportion="0.429582">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/createBaseFrame.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+                <state relative-caret-position="236">
+                  <caret line="163" column="47" lean-forward="true" selection-start-line="163" selection-start-column="47" selection-end-line="163" selection-end-column="47" />
                   <folding>
                     <element signature="e#0#23#0" expanded="true" />
                   </folding>
@@ -42,8 +43,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/frame.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1581">
-                  <caret line="102" selection-start-line="102" selection-end-line="102" />
+                <state relative-caret-position="326">
+                  <caret line="95" column="32" selection-start-line="95" selection-start-column="32" selection-end-line="95" selection-end-column="32" />
                   <folding>
                     <element signature="e#0#13#0" expanded="true" />
                   </folding>
@@ -52,10 +53,22 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/plotter.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="323">
+                  <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
+                  <folding>
+                    <element signature="e#0#18#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/node.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="221">
-                  <caret line="13" column="29" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
+                <state relative-caret-position="-238">
+                  <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
                 </state>
               </provider>
             </entry>
@@ -63,8 +76,17 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/printFrameToConsole.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="136">
-                  <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
+                <state relative-caret-position="85">
+                  <caret line="5" column="55" selection-start-line="5" selection-start-column="55" selection-end-line="5" selection-end-column="55" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/codecs.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="5627">
+                  <caret line="332" selection-start-line="332" selection-end-line="332" />
                 </state>
               </provider>
             </entry>
@@ -79,27 +101,10 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/geneticOptimizer.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="153">
-                  <caret line="10" selection-start-line="10" selection-end-line="10" />
-                  <folding>
-                    <element signature="e#0#19#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/geneticGeometryOptimizer.py">
-              <provider selected="true" editor-type-id="text-editor" />
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/solver.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1819">
-                  <caret line="108" selection-start-line="108" selection-end-line="108" />
+                <state relative-caret-position="-1348">
+                  <caret line="25" column="70" selection-start-line="25" selection-start-column="70" selection-end-line="25" selection-end-column="70" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
                   </folding>
@@ -123,7 +128,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tubeSizes.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="439">
+                <state relative-caret-position="4828">
                   <caret line="284" column="37" selection-start-line="284" selection-start-column="37" selection-end-line="284" selection-end-column="37" />
                 </state>
               </provider>
@@ -132,8 +137,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/loadCases.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="272">
-                  <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
+                <state relative-caret-position="130">
+                  <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
                 </state>
               </provider>
             </entry>
@@ -141,8 +146,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Create2019Frame.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="34">
-                  <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+                <state relative-caret-position="408">
+                  <caret line="25" column="56" selection-start-line="25" selection-start-column="56" selection-end-line="25" selection-end-column="56" />
                   <folding>
                     <element signature="e#0#23#0" expanded="true" />
                   </folding>
@@ -153,8 +158,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Create2020Frame.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="402">
-                  <caret line="166" lean-forward="true" selection-start-line="166" selection-end-line="166" />
+                <state relative-caret-position="420">
+                  <caret line="170" column="16" selection-start-line="170" selection-start-column="16" selection-end-line="170" selection-end-column="16" />
                   <folding>
                     <element signature="e#0#23#0" expanded="true" />
                   </folding>
@@ -195,13 +200,15 @@
         <option value="$PROJECT_DIR$/CompetitionTorsionalStiffnessAnalysis.py" />
         <option value="$PROJECT_DIR$/Create2019Frame.py" />
         <option value="$PROJECT_DIR$/venv/Steps before submitting a calculation" />
-        <option value="$PROJECT_DIR$/printFrameToConsole.py" />
         <option value="$PROJECT_DIR$/multithreadedGeneticOptimizer.py" />
-        <option value="$PROJECT_DIR$/frame.py" />
         <option value="$PROJECT_DIR$/venv/Create2020Frame.py" />
-        <option value="$PROJECT_DIR$/loadCases.py" />
         <option value="$PROJECT_DIR$/tubeSizes.py" />
+        <option value="$PROJECT_DIR$/loadCases.py" />
+        <option value="$PROJECT_DIR$/plotter.py" />
+        <option value="$PROJECT_DIR$/frame.py" />
+        <option value="$PROJECT_DIR$/solver.py" />
         <option value="$PROJECT_DIR$/createBaseFrame.py" />
+        <option value="$PROJECT_DIR$/printFrameToConsole.py" />
         <option value="$PROJECT_DIR$/Create2020Frame.py" />
       </list>
     </option>
@@ -453,7 +460,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581810953927</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Revised 2020 Frame (not currently working)">
+      <created>1582170061192</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1582170061192</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -469,13 +483,13 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.09220232" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18071654" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49947312" visible="true" weight="0.30985916" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49947312" visible="true" weight="0.3856988" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.51137596" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
@@ -552,11 +566,24 @@
     <MESSAGE value="Test" />
     <MESSAGE value="Changed the number of nodes torsional stiffness pulls from data from for calculations" />
     <MESSAGE value="Added 2020 Frame (not currently working)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added 2020 Frame (not currently working)" />
+    <MESSAGE value="Revised 2020 Frame (not currently working)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revised 2020 Frame (not currently working)" />
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>relevantS</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>a</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/results/2019-09-07 10h 17m 07s/graph.png" />
-    <entry file="file://$PROJECT_DIR$/results/2019-09-07 10h 17m 07s/Torsional Stiffness.png" />
     <entry file="file://$PROJECT_DIR$/create2017Frame.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
@@ -715,37 +742,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Steps before submitting a calculation">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="85" selection-start-line="3" selection-start-column="85" selection-end-line="3" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frame.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1581">
-          <caret line="102" selection-start-line="102" selection-end-line="102" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="29" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/geneticThicknessOptimizer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/geneticOptimizer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -759,13 +755,24 @@
     <entry file="file://$PROJECT_DIR$/geneticGeometryOptimizer.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/solver.py">
+    <entry file="file://$PROJECT_DIR$/venv/Steps before submitting a calculation">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1819">
-          <caret line="108" selection-start-line="108" selection-end-line="108" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="51">
+          <caret line="3" column="85" selection-start-line="3" selection-start-column="85" selection-end-line="3" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5627">
+          <caret line="332" selection-start-line="332" selection-end-line="332" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/geneticThicknessOptimizer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -773,6 +780,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1632">
           <caret line="96" selection-start-line="96" selection-end-line="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tubeSizes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4828">
+          <caret line="284" column="37" selection-start-line="284" selection-start-column="37" selection-end-line="284" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Create2019Frame.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="25" column="56" selection-start-line="25" selection-start-column="56" selection-end-line="25" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -786,41 +810,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/printFrameToConsole.py">
+    <entry file="file://$PROJECT_DIR$/solver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="43" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
+        <state relative-caret-position="-1348">
+          <caret line="25" column="70" selection-start-line="25" selection-start-column="70" selection-end-line="25" selection-end-column="70" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Create2019Frame.py">
+    <entry file="file://$PROJECT_DIR$/node.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
+        <state relative-caret-position="-238">
+          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plotter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frame.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="95" column="32" selection-start-line="95" selection-start-column="32" selection-end-line="95" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/printFrameToConsole.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="55" selection-start-line="5" selection-start-column="55" selection-end-line="5" selection-end-column="55" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/loadCases.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tubeSizes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="284" column="37" selection-start-line="284" selection-start-column="37" selection-end-line="284" selection-end-column="37" />
+        <state relative-caret-position="130">
+          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/createBaseFrame.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+        <state relative-caret-position="236">
+          <caret line="163" column="47" lean-forward="true" selection-start-line="163" selection-start-column="47" selection-end-line="163" selection-end-column="47" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
@@ -829,8 +873,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Create2020Frame.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="402">
-          <caret line="166" lean-forward="true" selection-start-line="166" selection-end-line="166" />
+        <state relative-caret-position="420">
+          <caret line="170" column="16" selection-start-line="170" selection-start-column="16" selection-end-line="170" selection-end-column="16" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>

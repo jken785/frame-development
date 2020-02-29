@@ -34,7 +34,7 @@ class LoadCases:
 
         # put any nodes that you would like to complete fix (since a moment is applied on the car) in the list below:
         #Fixed rear nodes
-        fixedNodes = [38, 39, 40, 41, 44, 45, 46, 47]
+        fixedNodes = [38, 40, 44, 46]
 
         #Fixed front nodes
         #fixedNodes = [4, 6, 8, 10]
@@ -65,8 +65,8 @@ class LoadCases:
 
         nodeForceCases = [damperLoadNodes, rockerForceRightNodes, rockerForceLeftNodes]
 
-        # Try to put fixed nodes some distance away from the fixed nodes
-        fixedNodes = [11, 12, 13, 14, 15]
+        # Try to put objective nodes some distance away from the fixed nodes
+        fixedNodes = [38, 40, 44, 46]
 
         objFuncNodes = [6, 22, 23, 24, 25, 26, 27]
         objFuncWeight = 0.5

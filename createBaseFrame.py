@@ -8,7 +8,7 @@ def createBaseFrame():
     # note you should add groups, like for main-hoop, so it stays vertical but can move in x
     # symmetric pair could be a type of group
 
-    # especially useful for tubes modelled as multiple tubes, but are actually one tube (i.e. roll hoop)
+    # especially useful for tubes modeled as multiple tubes, but are actually one tube (i.e. roll hoop)
 
     frame.addNode("upper-left-bulkhead", 17.016, -7.472, 17.675, True, True)
     frame.addNode("lower-left-bulkhead", 17.016, -7.472, 5.3, True, True)
@@ -38,11 +38,9 @@ def createBaseFrame():
     frame.addNode("upper-aft-rearbox", 106.473, -8.818, 10.854, True, True)
     frame.addNode("upper-mid-rearbox", 99.5, -8.701, 10.846, True, True)
     frame.addNode("upper-rearRockerPlane", 99.5, -6.819, 13.545, True, True, 1, 1, 1, 1, 2, 1, "RockerPlane")
-    frame.addNode("rear-arb", 99.5, -2.45, 15, True, True, 1, 1, 0, 0, 3, 0, "RockerPlane")
-    frame.addNode("fore-rear-arb", 99.5, -1.2, 15, True, True)
-    frame.addNode("aft-rear-arb", 99.5, -0.7, 15.5, True, True)
-    frame.addNode("upper-aft-enginemount", 93.723, -5.263, 15.775, False, True)
-    frame.addNode("upper-aft-enginemount-mirror", 93.723, 4.952, 15.775, False, True)
+    frame.addNode("outer-rear-arb", 99.5, -2.45, 15, True, True, 1, 1, 0, 0, 3, 0, "RockerPlane")
+    frame.addNode("inner-rear-arb", 99.5, -1.2, 15, True, True)
+    frame.addNode("upper-aft-enginemount", 93.723, -5.263, 15.775, True, True)
     frame.addNode("lower-aft-enginemount", 93.741, -4.907, 6.552, True, True)
     frame.addNode("foremost-enginemount-mirror", 79.23, 8.092, 13.755, False, True)
     frame.addNode("rear-v-towbar", 105.87, 0, 5.77, False, True)
@@ -95,19 +93,19 @@ def createBaseFrame():
     frame.addTube(RD_1x95, RD_1x95, "left-brace-mainhoop", "nipple-mainhoop", False, True, "MainRollHoop")
     frame.addTube(RD_1x95, RD_1x95, "nipple-mainhoop", "left-brace-mainhoop#m", False, True, "MainRollHoop")
 
-    # crossbraces
+    #crossbraces
     frame.addTube(RD_75x35, RD_375x28, "left-lower-mainhoop", "seat-crossbrace", False, True, "Crossbrace5")
     frame.addTube(RD_75x35, RD_375x28, "left-lower-mainhoop#m", "seat-crossbrace", False, True, "Crossbrace5")
     frame.addTube(RD_75x35, RD_375x28, "lower-aft-left-frontbox", "seat-crossbrace", False, True, "Crossbrace4")
     frame.addTube(RD_75x35, RD_375x28, "lower-aft-left-frontbox#m", "seat-crossbrace", False, True, "Crossbrace4")
 
-    # use these to test the isRequired property
+    #use these to test the isRequired property
     frame.addTube(SQ_625x35, RD_375x28, "lower-aft-left-frontbox", "frontbox-crossbrace", False, False, "Crossbrace3")
     frame.addTube(SQ_625x35, RD_375x28, "lower-aft-left-frontbox#m", "frontbox-crossbrace", False, False, "Crossbrace3")
     frame.addTube(SQ_1x35, RD_375x28, "left-rockernode", "frontbox-crossbrace", False, False, "Crossbrace2")
     frame.addTube(SQ_1x35, RD_375x28, "left-rockernode#m", "frontbox-crossbrace", False, False, "Crossbrace2")
     frame.addTube(RD_625x28, RD_375x28, "lower-fore-left-frontbox", "lower-fore-left-frontbox#m", False, False,
-                  "Crossbrace1")
+                 "Crossbrace1")
 
     frame.addTube(RD_1x49, RD_375x28, "left-sideimpact-mainhoop", "engine-to-harness", True, True)
     frame.addTube(RD_625x28, RD_375x28, "engine-to-harness", "foremost-enginemount", False, True)
@@ -133,37 +131,34 @@ def createBaseFrame():
     frame.addTube(RD_75x35, RD_375x28, "upper-aft-rearbox#m", "rear-v-towbar", False, True)
     frame.addTube(RD_1x49, RD_375x28, "upper-fore-rearbox", "upper-mid-rearbox", True, True, "UpperRearbox")
     frame.addTube(RD_1x49, RD_375x28, "upper-mid-rearbox", "upper-aft-rearbox", True, True, "upperRearbox")
-    frame.addTube(RD_1x35, RD_375x28, "upper-fore-rearbox", "upper-aft-enginemount", False, True)
-    frame.addTube(RD_1x35, RD_375x28, "upper-fore-rearbox#m", "upper-aft-enginemount-mirror", False, True)
+    frame.addTube(RD_1x35, RD_375x28, "upper-fore-rearbox", "upper-aft-enginemount", True, True)
     frame.addTube(RD_625x35, RD_375x28, "upper-fore-rearbox", "upper-rearRockerPlane", True, True)
-    frame.addTube(RD_1x35, RD_375x28, "upper-rearRockerPlane", "upper-aft-enginemount", False, True, "toEngineMount")
-    frame.addTube(RD_1x35, RD_375x28, "upper-rearRockerPlane#m", "upper-aft-enginemount-mirror", False, True,
-                  "toEngineMount")
+    frame.addTube(RD_1x35, RD_375x28, "upper-rearRockerPlane", "upper-aft-enginemount", True, True, "toEngineMount")
     frame.addTube(RD_1x35, RD_375x28, "upper-rearRockerPlane", "upper-aft-rearbox", True, True, "toEngineMount")
     frame.addTube(RD_5x35, RD_375x28, "upper-mid-rearbox", "upper-rearRockerPlane", True, False)
-    frame.addTube(RC_1x1_5x65, RD_375x28, "rear-arb", "rear-arb#m", False, False)
-    frame.addTube(RD_625x49, RD_375x28, "upper-aft-enginemount", "rear-arb", False, False)
-    frame.addTube(RD_625x49, RD_375x28, "upper-aft-enginemount-mirror", "rear-arb#m", False, False)
-    frame.addTube(RD_75x35, RD_375x28, "upper-aft-rearbox", "rear-arb", True, False)
+    frame.addTube(RC_1x1_5x65, RD_375x28, "outer-rear-arb", "inner-rear-arb", True, False)
+    frame.addTube(RC_1x1_5x65, RD_375x28, "inner-rear-arb", "inner-rear-arb#m", False, False)
+    frame.addTube(RD_625x49, RD_375x28, "upper-aft-enginemount", "inner-rear-arb", True, False)
+    frame.addTube(RD_75x35, RD_375x28, "upper-aft-rearbox", "inner-rear-arb", True, False)
     frame.addTube(RD_1x49, RD_375x28, "lower-fore-rearbox", "lower-mid-rearbox", True, True)
     frame.addTube(RD_1x49, RD_375x28, "lower-mid-rearbox", "lower-aft-rearbox", True, True)
     frame.addTube(SQ_1x35, RD_375x28, "fronthoop-steeringwheelmount", "steeringwheel", False, False)
     frame.addTube(SQ_1x35, RD_375x28, "fronthoop-steeringwheelmount#m", "steeringwheel", False, False)
     frame.addTube(RD_5x28, RD_375x28, "sideimpact-driverbrace", "sideimpact-driverbrace-uppersupport", True, True)
     frame.addTube(RD_5x28, RD_375x28, "mainhoop-driverbrace", "sideimpact-driverbrace-uppersupport", True, True)
-    frame.addTube(RD_375x28, RD_375x28, "sideimpact-driverbrace-lowersupport", "sideimpact-driverbrace-uppersupport", True, True)
+    frame.addTube(RD_375x28, RD_375x28, "sideimpact-driverbrace-lowersupport", "sideimpact-driverbrace-uppersupport",
+                 True, True)
 
-    # Engine tubes
-    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount", "lower-aft-enginemount", False, True)
-    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount-mirror", "lower-aft-enginemount#m", False, True)
+    #Engine tubes
+    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount", "lower-aft-enginemount", True, True)
     frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount", "lower-aft-enginemount#m", False, True)
     frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount", "foremost-enginemount", False, True)
     frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount", "foremost-enginemount-mirror", False, True)
-    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount", "upper-aft-enginemount-mirror", False, True)
+    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount", "upper-aft-enginemount#m", False, True)
 
-    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount-mirror", "lower-aft-enginemount", False, True)
-    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount-mirror", "foremost-enginemount", False, True)
-    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount-mirror", "foremost-enginemount-mirror", False, True)
+    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount#m", "lower-aft-enginemount", False, True)
+    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount#m", "foremost-enginemount", False, True)
+    frame.addTube(RD_1xSLD, RD_1xSLD, "upper-aft-enginemount#m", "foremost-enginemount-mirror", False, True)
 
     frame.addTube(RD_1xSLD, RD_1xSLD, "foremost-enginemount", "foremost-enginemount-mirror", False, True)
     frame.addTube(RD_1xSLD, RD_1xSLD, "foremost-enginemount", "lower-aft-enginemount", False, True)
@@ -174,5 +169,3 @@ def createBaseFrame():
 
     frame.addTube(RD_1xSLD, RD_1xSLD, "lower-aft-enginemount", "lower-aft-enginemount#m", False, True)
     return frame
-
-
