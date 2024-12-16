@@ -1,4 +1,4 @@
-configobj==5.0.6
+configobj==5.0.9
 cycler==0.10.0
 future==0.17.1
 html5lib==1.0.1
